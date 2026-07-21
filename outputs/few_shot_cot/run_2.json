@@ -1,0 +1,153 @@
+{
+  "metadata": {
+    "central_cve": "CVE-2021-44228",
+    "graph_type": "semantic_attack_graph",
+    "description": "A semantic attack graph centered on Log4Shell (CVE-2021-44228). It includes incomplete patch chains, similar attack patterns, reconnaissance, and prerequisite relationships with JNDI Injection as the primary attack vector.",
+    "total_nodes": 9,
+    "total_links": 8,
+    "generation_date": "2025-12-31",
+    "analysis_focus": "Tracking attack paths and patch evolution in the Log4j vulnerability ecosystem."
+  },
+  "nodes": [
+    {
+      "cve_id": "CVE-2017-5645",
+      "description": "In Apache Log4j 2.x before 2.8.2, when using the TCP socket server or UDP socket server to receive serialized log events from another application, a specially crafted binary payload can be sent that, when deserialized, can execute arbitrary code.",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j 2.x before 2.8.2",
+      "vulnerability_type": "Deserialization RCE",
+      "precondition": "TCP/UDP socket server enabled for receiving serialized log events",
+      "postcondition": "Arbitrary code execution"
+    },
+    {
+      "cve_id": "CVE-2019-17571",
+      "description": "Included in Log4j 1.2 is a SocketServer class that is vulnerable to deserialization of untrusted data which can be exploited to remotely execute arbitrary code when combined with a deserialization gadget when listening to untrusted network traffic for log data. This affects Log4j versions up to 1.2 up to 1.2.17.",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j 1.2 up to 1.2.17",
+      "vulnerability_type": "Deserialization RCE",
+      "precondition": "SocketServer listening to untrusted network traffic + deserialization gadget present",
+      "postcondition": "Remote arbitrary code execution"
+    },
+    {
+      "cve_id": "CVE-2020-9488",
+      "description": "Improper validation of certificate with host mismatch in Apache Log4j SMTP appender. This could allow an SMTPS connection to be intercepted by a man-in-the-middle attack which could leak any log messages sent through that appender. Fixed in Apache Log4j 2.12.3 and 2.13.1",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j < 2.12.3 and < 2.13.1",
+      "vulnerability_type": "Certificate Validation Bypass",
+      "precondition": "SMTP appender configured with SMTPS connection",
+      "postcondition": "Information disclosure through man-in-the-middle attack"
+    },
+    {
+      "cve_id": "CVE-2021-44228",
+      "description": "Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0 (along with 2.12.2, 2.12.3, and 2.3.1), this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects.",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j2 2.0-beta9 through 2.15.0 (excluding 2.12.2, 2.12.3, 2.3.1)",
+      "vulnerability_type": "JNDI Injection RCE",
+      "precondition": "Attacker control over log messages/parameters + message lookup substitution enabled",
+      "postcondition": "Remote code execution via LDAP/JNDI lookup"
+    },
+    {
+      "cve_id": "CVE-2021-4104",
+      "description": "JMSAppender in Log4j 1.2 is vulnerable to deserialization of untrusted data when the attacker has write access to the Log4j configuration. The attacker can provide TopicBindingName and TopicConnectionFactoryBindingName configurations causing JMSAppender to perform JNDI requests that result in remote code execution in a similar fashion to CVE-2021-44228. Note this issue only affects Log4j 1.2 when specifically configured to use JMSAppender, which is not the default. Apache Log4j 1.2 reached end of life in August 2015. Users should upgrade to Log4j 2 as it addresses numerous other issues from the previous versions.",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j 1.2 (all versions)",
+      "vulnerability_type": "JNDI Injection RCE",
+      "precondition": "JMSAppender configured + attacker write access to Log4j configuration",
+      "postcondition": "Remote code execution via JNDI requests"
+    },
+    {
+      "cve_id": "CVE-2021-45046",
+      "description": "It was found that the fix to address CVE-2021-44228 in Apache Log4j 2.15.0 was incomplete in certain non-default configurations. This could allows attackers with control over Thread Context Map (MDC) input data when the logging configuration uses a non-default Pattern Layout with either a Context Lookup (for example, $${ctx:loginId}) or a Thread Context Map pattern (%X, %mdc, or %MDC) to craft malicious input data using a JNDI Lookup pattern resulting in an information leak and remote code execution in some environments and local code execution in all environments. Log4j 2.16.0 (Java 8) and 2.12.2 (Java 7) fix this issue by removing support for message lookup patterns and disabling JNDI functionality by default.",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j 2.15.0 with non-default configurations",
+      "vulnerability_type": "JNDI Injection RCE/Information Disclosure",
+      "precondition": "Control over Thread Context Map (MDC) + non-default Pattern Layout with Context Lookup/Thread Context Map pattern",
+      "postcondition": "Information leak and RCE in some environments, local code execution in all environments"
+    },
+    {
+      "cve_id": "CVE-2021-45105",
+      "description": "Apache Log4j2 versions 2.0-alpha1 through 2.16.0 (excluding 2.12.3 and 2.3.1) did not protect from uncontrolled recursion from self-referential lookups. This allows an attacker with control over Thread Context Map data to cause a denial of service when a crafted string is interpreted. This issue was fixed in Log4j 2.17.0, 2.12.3, and 2.3.1.",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j2 2.0-alpha1 through 2.16.0 (excluding 2.12.3 and 2.3.1)",
+      "vulnerability_type": "Denial of Service",
+      "precondition": "Control over Thread Context Map data + crafted self-referential lookup string",
+      "postcondition": "Denial of service through uncontrolled recursion"
+    },
+    {
+      "cve_id": "CVE-2021-44832",
+      "description": "Apache Log4j2 versions 2.0-beta7 through 2.17.0 (excluding security fix releases 2.3.2 and 2.12.4) are vulnerable to a remote code execution (RCE) attack when a configuration uses a JDBC Appender with a JNDI LDAP data source URI when an attacker has control of the target LDAP server. This issue is fixed by limiting JNDI data source names to the java protocol in Log4j2 versions 2.17.1, 2.12.4, and 2.3.2.",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j2 2.0-beta7 through 2.17.0 (excluding 2.3.2 and 2.12.4)",
+      "vulnerability_type": "JNDI Injection RCE",
+      "precondition": "JDBC Appender configured with JNDI LDAP data source + attacker control of target LDAP server",
+      "postcondition": "Remote code execution"
+    },
+    {
+      "cve_id": "CVE-2022-23302",
+      "description": "JMSSink in all versions of Log4j 1.x is vulnerable to deserialization of untrusted data when the attacker has write access to the Log4j configuration or if the configuration references an LDAP service the attacker has access to. The attacker can provide a TopicConnectionFactoryBindingName configuration causing JMSSink to perform JNDI requests that result in remote code execution in a similar fashion to CVE-2021-4104. Note this issue only affects Log4j 1.x when specifically configured to use JMSSink, which is not the default. Apache Log4j 1.2 reached end of life in August 2015. Users should upgrade to Log4j 2 as it addresses numerous other issues from the previous versions.",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j 1.x (all versions)",
+      "vulnerability_type": "JNDI Injection RCE",
+      "precondition": "JMSSink configured + (write access to configuration OR attacker-controlled LDAP service)",
+      "postcondition": "Remote code execution via JNDI requests"
+    }
+  ],
+  "links": [
+    {
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-45046",
+      "relation_type": "incomplete_fix",
+      "description": "The Log4j 2.15.0 patch is incomplete, allowing JNDI Injection to be bypassed through MDC (Thread Context Map). RCE can still occur when a Context Lookup pattern is used."
+    },
+    {
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-45105",
+      "relation_type": "incomplete_fix",
+      "description": "Up to Log4j 2.16.0, recursive protection against self-referential lookup remained insufficient. DoS attacks are possible through manipulation of Thread Context Map data."
+    },
+    {
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-44832",
+      "relation_type": "mitigation_issue",
+      "description": "Even after JNDI lookup mitigation measures, the JNDI LDAP data source vulnerability in the JDBC Appender remained. Exploitation is possible through version 2.17.0."
+    },
+    {
+      "source": "CVE-2021-4104",
+      "target": "CVE-2021-44228",
+      "relation_type": "similar_attack_pattern",
+      "description": "The Log4j 1.x JMSAppender and Log4j 2.x share a fundamentally identical JNDI Injection attack pattern. Although the versions differ, they share the same LDAP/JNDI-based RCE principle."
+    },
+    {
+      "source": "CVE-2020-9488",
+      "target": "CVE-2021-44228",
+      "relation_type": "reconnaissance",
+      "description": "Log messages can be intercepted by bypassing certificate validation in the SMTP appender. After collecting environment variables and application information, the data can be used for a precisely targeted Log4Shell attack."
+    },
+    {
+      "source": "CVE-2017-5645",
+      "target": "CVE-2021-44228",
+      "relation_type": "precondition_met",
+      "description": "Initial code execution is obtained through deserialization RCE in the TCP/UDP socket server. A persistent backdoor can then be established through Log4Shell in a Log4j 2.x environment."
+    },
+    {
+      "source": "CVE-2021-4104",
+      "target": "CVE-2022-23302",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both JMSAppender and JMSSink in Log4j 1.x share JNDI-based RCE vulnerabilities. Manipulation of the TopicConnectionFactoryBindingName configuration provides the same attack vector."
+    },
+    {
+      "source": "CVE-2019-17571",
+      "target": "CVE-2021-44228",
+      "relation_type": "precondition_met",
+      "description": "After compromising the system through Log4j 1.x SocketServer deserialization RCE, Log4Shell can be used for privilege escalation and lateral movement in an environment where Log4j 2.x coexists."
+    }
+  ]
+}
