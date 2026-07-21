@@ -1,0 +1,175 @@
+{
+  "links": [
+    {
+      "evidence": "The description explicitly states 'fix to address CVE-2021-44228 in Apache Log4j 2.15.0 was incomplete'",
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-45046",
+      "type": "incomplete_fix"
+    },
+    {
+      "evidence": "The CVE-2021-4104 description explicitly states 'in a similar fashion to CVE-2021-44228'",
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-4104",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "Same JNDI LDAP RCE principle, with only the JDBC Appender path differing",
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-44832",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "Same JNDI RCE family",
+      "source": "CVE-2021-44228",
+      "target": "CVE-2022-23302",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "DoS remained even after 2.16.0 (fix for 45046), with an additional fix in 2.17.0",
+      "source": "CVE-2021-45046",
+      "target": "CVE-2021-45105",
+      "type": "incomplete_fix"
+    },
+    {
+      "evidence": "Patch chain 44228→45046→45105; the affected range 2.0-alpha1~2.16.0 includes version 2.15.0, where 44228 was fixed",
+      "source": "CVE-2021-45105",
+      "target": "CVE-2021-44228",
+      "type": "incomplete_fix"
+    },
+    {
+      "evidence": "DoS remained after the 45046 fix (2.16.0)",
+      "source": "CVE-2021-45105",
+      "target": "CVE-2021-45046",
+      "type": "incomplete_fix"
+    },
+    {
+      "evidence": "The CVE-2022-23302 description explicitly states 'similar fashion to CVE-2021-4104'",
+      "source": "CVE-2021-4104",
+      "target": "CVE-2022-23302",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "Log information disclosure (MitM) → identify the server environment and Log4j version → precisely target a JNDI attack",
+      "source": "CVE-2020-9488",
+      "target": "CVE-2021-44228",
+      "type": "reconnaissance"
+    },
+    {
+      "evidence": "Same deserialization RCE principle through socket servers (2.x vs 1.2.x)",
+      "source": "CVE-2017-5645",
+      "target": "CVE-2019-17571",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "Untrusted serialized data processing → same RCE principle",
+      "source": "CVE-2017-5645",
+      "target": "CVE-2020-9493",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "Same deserialization RCE principle",
+      "source": "CVE-2017-5645",
+      "target": "CVE-2022-23307",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "Attack family based on deserialization of untrusted data",
+      "source": "CVE-2017-5645",
+      "target": "CVE-2023-26464",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "Attack involving the same SocketServer/SocketAppender component family",
+      "source": "CVE-2019-17571",
+      "target": "CVE-2023-26464",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "The CVE-2022-23307 description explicitly states 'CVE-2020-9493...same issue exists'",
+      "source": "CVE-2020-9493",
+      "target": "CVE-2022-23307",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "Same JNDI RCE family, Log4j 2.x family",
+      "source": "CVE-2021-44832",
+      "target": "CVE-2021-45046",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "Both are DoS. 45105: self-referential lookup recursion; 23026464: deeply nested hashmap deserialization. Same type of availability impact",
+      "source": "CVE-2023-26464",
+      "target": "CVE-2021-45105",
+      "type": "similar_attack_pattern"
+    }
+  ],
+  "metadata": {
+    "candidate_id": 3,
+    "description": "Round 3 full investigation - relationship analysis based on CVE ID ascending order",
+    "total_links": 17,
+    "total_nodes": 12
+  },
+  "nodes": [
+    {
+      "id": "CVE-2017-5645",
+      "product": "Apache Log4j 2.x",
+      "vulnerability_type": "Deserialization RCE"
+    },
+    {
+      "id": "CVE-2019-17571",
+      "product": "Apache Log4j 1.2",
+      "vulnerability_type": "Deserialization RCE"
+    },
+    {
+      "id": "CVE-2020-9488",
+      "product": "Apache Log4j 2.x",
+      "vulnerability_type": "Certificate Validation Bypass"
+    },
+    {
+      "id": "CVE-2020-9493",
+      "product": "Apache Chainsaw",
+      "vulnerability_type": "Deserialization RCE"
+    },
+    {
+      "id": "CVE-2021-4104",
+      "product": "Apache Log4j 1.2",
+      "vulnerability_type": "JNDI Injection RCE"
+    },
+    {
+      "id": "CVE-2021-44228",
+      "is_central": true,
+      "product": "Apache Log4j 2.x",
+      "vulnerability_type": "JNDI Injection RCE"
+    },
+    {
+      "id": "CVE-2021-44832",
+      "product": "Apache Log4j 2.x",
+      "vulnerability_type": "JNDI Injection RCE"
+    },
+    {
+      "id": "CVE-2021-45046",
+      "product": "Apache Log4j 2.x",
+      "vulnerability_type": "JNDI Injection RCE/Information Disclosure"
+    },
+    {
+      "id": "CVE-2021-45105",
+      "product": "Apache Log4j 2.x",
+      "vulnerability_type": "Denial of Service"
+    },
+    {
+      "id": "CVE-2022-23302",
+      "product": "Apache Log4j 1.x",
+      "vulnerability_type": "JNDI Injection RCE"
+    },
+    {
+      "id": "CVE-2022-23307",
+      "product": "Apache Log4j 1.2.x",
+      "vulnerability_type": "Deserialization RCE"
+    },
+    {
+      "id": "CVE-2023-26464",
+      "product": "Apache Log4j 1.x (JRE<1.7)",
+      "vulnerability_type": "Denial of Service"
+    }
+  ]
+}

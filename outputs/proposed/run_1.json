@@ -1,0 +1,140 @@
+{
+  "metadata": {
+    "candidate_id": 1,
+    "description": "Round 1 full investigation - relationship analysis based on CVE ID ascending order",
+    "total_nodes": 11,
+    "total_links": 12
+  },
+  "nodes": [
+    {
+      "id": "CVE-2017-5645",
+      "vulnerability_type": "Deserialization RCE",
+      "product": "Apache Log4j 2.x"
+    },
+    {
+      "id": "CVE-2019-17571",
+      "vulnerability_type": "Deserialization RCE",
+      "product": "Apache Log4j 1.2"
+    },
+    {
+      "id": "CVE-2020-9488",
+      "vulnerability_type": "Certificate Validation Bypass",
+      "product": "Apache Log4j 2.x"
+    },
+    {
+      "id": "CVE-2020-9493",
+      "vulnerability_type": "Deserialization RCE",
+      "product": "Apache Chainsaw"
+    },
+    {
+      "id": "CVE-2021-4104",
+      "vulnerability_type": "JNDI Injection RCE",
+      "product": "Apache Log4j 1.2"
+    },
+    {
+      "id": "CVE-2021-44228",
+      "vulnerability_type": "JNDI Injection RCE",
+      "product": "Apache Log4j 2.x",
+      "is_central": true
+    },
+    {
+      "id": "CVE-2021-44832",
+      "vulnerability_type": "JNDI Injection RCE",
+      "product": "Apache Log4j 2.x"
+    },
+    {
+      "id": "CVE-2021-45046",
+      "vulnerability_type": "JNDI Injection RCE/Information Disclosure",
+      "product": "Apache Log4j 2.x"
+    },
+    {
+      "id": "CVE-2021-45105",
+      "vulnerability_type": "Denial of Service",
+      "product": "Apache Log4j 2.x"
+    },
+    {
+      "id": "CVE-2022-23302",
+      "vulnerability_type": "JNDI Injection RCE",
+      "product": "Apache Log4j 1.x"
+    },
+    {
+      "id": "CVE-2022-23307",
+      "vulnerability_type": "Deserialization RCE",
+      "product": "Apache Log4j 1.2.x"
+    }
+  ],
+  "links": [
+    {
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-45046",
+      "type": "incomplete_fix",
+      "evidence": "The description explicitly states 'fix to address CVE-2021-44228 in Apache Log4j 2.15.0 was incomplete'"
+    },
+    {
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-4104",
+      "type": "similar_attack_pattern",
+      "evidence": "The CVE-2021-4104 description explicitly states 'in a similar fashion to CVE-2021-44228'. Same JNDI Injection principle"
+    },
+    {
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-44832",
+      "type": "similar_attack_pattern",
+      "evidence": "Same JNDI LDAP RCE principle, with only the JDBC Appender path differing"
+    },
+    {
+      "source": "CVE-2021-44228",
+      "target": "CVE-2022-23302",
+      "type": "similar_attack_pattern",
+      "evidence": "Same JNDI RCE family as CVE-2021-44228 through CVE-2021-4104"
+    },
+    {
+      "source": "CVE-2021-45046",
+      "target": "CVE-2021-45105",
+      "type": "incomplete_fix",
+      "evidence": "The DoS vulnerability remained even after the 2.16.0 patch (fix for 45046), with an additional fix in 2.17.0"
+    },
+    {
+      "source": "CVE-2021-4104",
+      "target": "CVE-2022-23302",
+      "type": "similar_attack_pattern",
+      "evidence": "The CVE-2022-23302 description explicitly states 'similar fashion to CVE-2021-4104'. JMSSink vs JMSAppender, same JNDI"
+    },
+    {
+      "source": "CVE-2020-9488",
+      "target": "CVE-2021-44228",
+      "type": "reconnaissance",
+      "evidence": "Intercept log contents (version and environment information) through SMTPS MitM → confirm the Log4j 2.x environment → precisely target JNDI Injection"
+    },
+    {
+      "source": "CVE-2017-5645",
+      "target": "CVE-2019-17571",
+      "type": "similar_attack_pattern",
+      "evidence": "Same untrusted deserialization RCE principle through socket servers (2.x vs 1.2.x)"
+    },
+    {
+      "source": "CVE-2017-5645",
+      "target": "CVE-2020-9493",
+      "type": "similar_attack_pattern",
+      "evidence": "Untrusted serialized data processing → same RCE principle"
+    },
+    {
+      "source": "CVE-2017-5645",
+      "target": "CVE-2022-23307",
+      "type": "similar_attack_pattern",
+      "evidence": "Same deserialization RCE principle"
+    },
+    {
+      "source": "CVE-2019-17571",
+      "target": "CVE-2023-26464",
+      "type": "similar_attack_pattern",
+      "evidence": "Untrusted data processing based on SocketAppender/SocketServer, same component family"
+    },
+    {
+      "source": "CVE-2020-9493",
+      "target": "CVE-2022-23307",
+      "type": "similar_attack_pattern",
+      "evidence": "The CVE-2022-23307 description explicitly states 'CVE-2020-9493 identified a deserialization issue...same issue exists'"
+    }
+  ]
+}
