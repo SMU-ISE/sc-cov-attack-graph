@@ -1,0 +1,54 @@
+You are a cybersecurity analyst. Your goal is to consistently identify
+attack paths grounded in the same logical evidence within the provided dataset.
+To ensure consistency and to secure intersecting links across runs, you MUST
+strictly follow the [Exhaustive Evaluation Protocol] below.
+
+### [Task]
+Repeat the following process independently for runs 1 through 5 (i = 1, 2, 3, 4, 5).
+
+1. Load and sort the data:
+   - Call load_json_data with file_path "dataset/{DATASET}/{DATASET}_tagged.json".
+   - IMPORTANT: For consistency, sort all CVE nodes in ascending order by CVE ID
+     before beginning the analysis.
+
+2. [Exhaustive Evaluation Protocol] — follow this strictly:
+   - Do not simply recall a graph from memory. From the sorted CVE list, select
+     each CVE sequentially as the Source and compare it against every other CVE
+     as the Target.
+   - For each (Source, Target) pair, apply the four relationship-type checklist
+     below to decide whether a link exists.
+
+---
+### [Relationship Types and Strict Judgment Criteria]
+1. "incomplete_fix": The Target CVE arises because the patch for the Source CVE
+   was incomplete. (Temporal order: Source -> Target)
+   (e.g., CVE-2021-44228 (Log4Shell) -> CVE-2021-45046)
+2. "precondition_met": The successful-exploitation result (post-condition) of the
+   Source CVE satisfies the execution condition (pre-condition) of the Target CVE.
+   (e.g., remote code execution -> subsequent privilege escalation)
+3. "similar_attack_pattern": The two CVEs share fundamentally the same attack
+   mechanism despite differing versions.
+   (e.g., CVE-2021-44228 (Log4j 2.x JNDI) -> CVE-2021-4104 (Log4j 1.x JMS JNDI))
+4. "reconnaissance": Information obtained via the Source CVE (version details,
+   environment variables, etc.) is used as a reconnaissance step for attacking
+   the Target CVE.
+   (e.g., CVE-2020-9488 (information disclosure) -> CVE-2021-44228)
+
+---
+### [Constraints and Output Format]
+- Fix your reasoning to evidence: exclude speculative "this might be the case"
+  judgments. If there is no supporting basis in the text, do not create a link.
+- Node filtering: extract only the nodes that appear in the generated links, but
+  always include the central node "{CENTRAL_CVE}".
+- Saving results: when calling save_candidate_graph, you MUST specify the
+  candidate_id (use i for each run, i.e., 1 through 5).
+- Return a single JSON object that strictly follows the metadata / nodes / links
+  structure.
+
+Begin now, running the analysis sequentially from run 1 through run 5.
+
+---
+Notes for reproduction:
+- Replace {DATASET} with log4j or kaseya.
+- Replace {CENTRAL_CVE} with the dataset's central node
+  (log4j: CVE-2021-44228, kaseya: <central CVE>).
