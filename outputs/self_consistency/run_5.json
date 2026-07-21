@@ -1,0 +1,169 @@
+{
+  "links": [
+    {
+      "evidence": "설명에 'fix to address CVE-2021-44228 in Apache Log4j 2.15.0 was incomplete' 명시",
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-45046",
+      "type": "incomplete_fix"
+    },
+    {
+      "evidence": "CVE-2021-4104 설명에 'in a similar fashion to CVE-2021-44228' 명시",
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-4104",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "JNDI LDAP RCE 동일. 'attacker has control of the target LDAP server' LDAP 공격 벡터 동일",
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-44832",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "JNDI RCE 계열 동일. CVE-2021-4104 경유 명시적 연결",
+      "source": "CVE-2021-44228",
+      "target": "CVE-2022-23302",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "45046 수정(2.16.0) 이후 DoS 잔존, 2.17.0에서 추가 수정",
+      "source": "CVE-2021-45046",
+      "target": "CVE-2021-45105",
+      "type": "incomplete_fix"
+    },
+    {
+      "evidence": "패치 체인: 44228 수정(2.15.0) → 45046 잔존(2.16.0) → 45105 잔존(2.17.0 해결)",
+      "source": "CVE-2021-45105",
+      "target": "CVE-2021-44228",
+      "type": "incomplete_fix"
+    },
+    {
+      "evidence": "'JMSSink…causing JMSSink to perform JNDI requests…in a similar fashion to CVE-2021-4104' 명시",
+      "source": "CVE-2021-4104",
+      "target": "CVE-2022-23302",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "Postcondition(로그 정보 유출) → 버전/환경 확인 → JNDI 공격 정밀 타격 Precondition 충족 지원",
+      "source": "CVE-2020-9488",
+      "target": "CVE-2021-44228",
+      "type": "reconnaissance"
+    },
+    {
+      "evidence": "소켓 서버 통한 역직렬화 RCE 동일 원리 (2.x vs 1.2.x)",
+      "source": "CVE-2017-5645",
+      "target": "CVE-2019-17571",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "역직렬화 RCE 동일 원리",
+      "source": "CVE-2017-5645",
+      "target": "CVE-2020-9493",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "역직렬화 RCE 계열",
+      "source": "CVE-2017-5645",
+      "target": "CVE-2022-23307",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "Chainsaw/SocketAppender 역직렬화 기반 비신뢰 데이터 처리 공격 계열",
+      "source": "CVE-2017-5645",
+      "target": "CVE-2023-26464",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "역직렬화 RCE 동일 원리",
+      "source": "CVE-2019-17571",
+      "target": "CVE-2020-9493",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "SocketServer vs SocketAppender, 동일 소켓 컴포넌트 계열 비신뢰 데이터 처리",
+      "source": "CVE-2019-17571",
+      "target": "CVE-2023-26464",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "'CVE-2020-9493 identified a deserialization issue...same issue exists' 명시",
+      "source": "CVE-2020-9493",
+      "target": "CVE-2022-23307",
+      "type": "similar_attack_pattern"
+    },
+    {
+      "evidence": "둘 다 DoS. 'uncontrolled recursion...denial of service' vs 'exhaust the available memory...Denial of Service'. 가용성 침해 유형 동일",
+      "source": "CVE-2023-26464",
+      "target": "CVE-2021-45105",
+      "type": "similar_attack_pattern"
+    }
+  ],
+  "metadata": {
+    "candidate_id": 5,
+    "description": "5회차 전수 조사 - CVE ID 오름차순 정렬 기반 관계 분석",
+    "total_links": 16,
+    "total_nodes": 12
+  },
+  "nodes": [
+    {
+      "id": "CVE-2017-5645",
+      "product": "Apache Log4j 2.x",
+      "vulnerability_type": "Deserialization RCE"
+    },
+    {
+      "id": "CVE-2019-17571",
+      "product": "Apache Log4j 1.2",
+      "vulnerability_type": "Deserialization RCE"
+    },
+    {
+      "id": "CVE-2020-9488",
+      "product": "Apache Log4j 2.x",
+      "vulnerability_type": "Certificate Validation Bypass"
+    },
+    {
+      "id": "CVE-2020-9493",
+      "product": "Apache Chainsaw",
+      "vulnerability_type": "Deserialization RCE"
+    },
+    {
+      "id": "CVE-2021-4104",
+      "product": "Apache Log4j 1.2",
+      "vulnerability_type": "JNDI Injection RCE"
+    },
+    {
+      "id": "CVE-2021-44228",
+      "is_central": true,
+      "product": "Apache Log4j 2.x",
+      "vulnerability_type": "JNDI Injection RCE"
+    },
+    {
+      "id": "CVE-2021-44832",
+      "product": "Apache Log4j 2.x",
+      "vulnerability_type": "JNDI Injection RCE"
+    },
+    {
+      "id": "CVE-2021-45046",
+      "product": "Apache Log4j 2.x",
+      "vulnerability_type": "JNDI Injection RCE/Information Disclosure"
+    },
+    {
+      "id": "CVE-2021-45105",
+      "product": "Apache Log4j 2.x",
+      "vulnerability_type": "Denial of Service"
+    },
+    {
+      "id": "CVE-2022-23302",
+      "product": "Apache Log4j 1.x",
+      "vulnerability_type": "JNDI Injection RCE"
+    },
+    {
+      "id": "CVE-2022-23307",
+      "product": "Apache Log4j 1.2.x",
+      "vulnerability_type": "Deserialization RCE"
+    },
+    {
+      "id": "CVE-2023-26464",
+      "product": "Apache Log4j 1.x (JRE<1.7)",
+      "vulnerability_type": "Denial of Service"
+    }
+  ]
+}
