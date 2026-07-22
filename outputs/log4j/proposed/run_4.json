@@ -1,158 +1,209 @@
 {
-  "links": [
-    {
-      "evidence": "The description explicitly states 'fix to address CVE-2021-44228 in Apache Log4j 2.15.0 was incomplete'",
-      "source": "CVE-2021-44228",
-      "target": "CVE-2021-45046",
-      "type": "incomplete_fix"
-    },
-    {
-      "evidence": "The CVE-2021-4104 description explicitly states 'in a similar fashion to CVE-2021-44228'",
-      "source": "CVE-2021-44228",
-      "target": "CVE-2021-4104",
-      "type": "similar_attack_pattern"
-    },
-    {
-      "evidence": "Same JNDI LDAP RCE principle, with only the JDBC Appender path differing",
-      "source": "CVE-2021-44228",
-      "target": "CVE-2021-44832",
-      "type": "similar_attack_pattern"
-    },
-    {
-      "evidence": "Same JNDI RCE family",
-      "source": "CVE-2021-44228",
-      "target": "CVE-2022-23302",
-      "type": "similar_attack_pattern"
-    },
-    {
-      "evidence": "DoS remained even after the 2.16.0 patch (fix for 45046), with an additional fix in 2.17.0",
-      "source": "CVE-2021-45046",
-      "target": "CVE-2021-45105",
-      "type": "incomplete_fix"
-    },
-    {
-      "evidence": "Extension of the 44228 patch chain. The affected versions (2.0-alpha1~2.16.0) include the 44228 fix versions (2.15.0/2.16.0)",
-      "source": "CVE-2021-45105",
-      "target": "CVE-2021-44228",
-      "type": "incomplete_fix"
-    },
-    {
-      "evidence": "The CVE-2022-23302 description explicitly states 'similar fashion to CVE-2021-4104'",
-      "source": "CVE-2021-4104",
-      "target": "CVE-2022-23302",
-      "type": "similar_attack_pattern"
-    },
-    {
-      "evidence": "Log information disclosure (MitM) → identify the Log4j version and environment → precisely target a JNDI attack",
-      "source": "CVE-2020-9488",
-      "target": "CVE-2021-44228",
-      "type": "reconnaissance"
-    },
-    {
-      "evidence": "Same deserialization RCE principle through socket servers (2.x vs 1.2.x)",
-      "source": "CVE-2017-5645",
-      "target": "CVE-2019-17571",
-      "type": "similar_attack_pattern"
-    },
-    {
-      "evidence": "Same deserialization RCE principle",
-      "source": "CVE-2017-5645",
-      "target": "CVE-2020-9493",
-      "type": "similar_attack_pattern"
-    },
-    {
-      "evidence": "Same deserialization RCE principle",
-      "source": "CVE-2017-5645",
-      "target": "CVE-2022-23307",
-      "type": "similar_attack_pattern"
-    },
-    {
-      "evidence": "Attack family involving untrusted data processing in Chainsaw/SocketAppender",
-      "source": "CVE-2017-5645",
-      "target": "CVE-2023-26464",
-      "type": "similar_attack_pattern"
-    },
-    {
-      "evidence": "Same deserialization RCE principle",
-      "source": "CVE-2019-17571",
-      "target": "CVE-2020-9493",
-      "type": "similar_attack_pattern"
-    },
-    {
-      "evidence": "SocketServer vs SocketAppender, untrusted data processing based on the same socket component family",
-      "source": "CVE-2019-17571",
-      "target": "CVE-2023-26464",
-      "type": "similar_attack_pattern"
-    },
-    {
-      "evidence": "The CVE-2022-23307 description explicitly states 'CVE-2020-9493...same issue exists'",
-      "source": "CVE-2020-9493",
-      "target": "CVE-2022-23307",
-      "type": "similar_attack_pattern"
-    }
-  ],
   "metadata": {
-    "candidate_id": 4,
-    "description": "Round 4 full investigation - relationship analysis based on CVE ID ascending order",
-    "total_links": 15,
-    "total_nodes": 11
+    "central_cve": "CVE-2021-44228",
+    "graph_title": "Log4j Attack Graph - Verified via CoVe Factored Verification",
+    "total_nodes": 11,
+    "total_links": 8,
+    "verification_method": "5-round independent analysis + CoVe factored verification",
+    "verification_criteria": "Frequency ≥3/5 AND Evidence-based factcheck PASS",
+    "all_links_verified": true,
+    "generation_date": "2025-12-31"
   },
   "nodes": [
     {
       "id": "CVE-2017-5645",
-      "product": "Apache Log4j 2.x",
-      "vulnerability_type": "Deserialization RCE"
+      "cve_id": "CVE-2017-5645",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j 2.x before 2.8.2",
+      "vulnerability_type": "Deserialization RCE",
+      "description": "In Apache Log4j 2.x before 2.8.2, when using the TCP socket server or UDP socket server to receive serialized log events from another application, a specially crafted binary payload can be sent that, when deserialized, can execute arbitrary code.",
+      "precondition": "TCP/UDP socket server enabled for receiving serialized log events",
+      "postcondition": "Arbitrary code execution"
     },
     {
       "id": "CVE-2019-17571",
-      "product": "Apache Log4j 1.2",
-      "vulnerability_type": "Deserialization RCE"
+      "cve_id": "CVE-2019-17571",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j 1.2 up to 1.2.17",
+      "vulnerability_type": "Deserialization RCE",
+      "description": "Included in Log4j 1.2 is a SocketServer class that is vulnerable to deserialization of untrusted data which can be exploited to remotely execute arbitrary code when combined with a deserialization gadget when listening to untrusted network traffic for log data. This affects Log4j versions up to 1.2 up to 1.2.17.",
+      "precondition": "SocketServer listening to untrusted network traffic + deserialization gadget present",
+      "postcondition": "Remote arbitrary code execution"
     },
     {
       "id": "CVE-2020-9488",
-      "product": "Apache Log4j 2.x",
-      "vulnerability_type": "Certificate Validation Bypass"
+      "cve_id": "CVE-2020-9488",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j < 2.12.3 and < 2.13.1",
+      "vulnerability_type": "Certificate Validation Bypass",
+      "description": "Improper validation of certificate with host mismatch in Apache Log4j SMTP appender. This could allow an SMTPS connection to be intercepted by a man-in-the-middle attack which could leak any log messages sent through that appender. Fixed in Apache Log4j 2.12.3 and 2.13.1",
+      "precondition": "SMTP appender configured with SMTPS connection",
+      "postcondition": "Information disclosure through man-in-the-middle attack"
     },
     {
       "id": "CVE-2020-9493",
-      "product": "Apache Chainsaw",
-      "vulnerability_type": "Deserialization RCE"
+      "cve_id": "CVE-2020-9493",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Apache Chainsaw < 2.1.0",
+      "vulnerability_type": "Deserialization RCE",
+      "description": "A deserialization flaw was found in Apache Chainsaw versions prior to 2.1.0 which could lead to malicious code execution.",
+      "precondition": "Processing untrusted serialized data in Chainsaw",
+      "postcondition": "Malicious code execution"
     },
     {
       "id": "CVE-2021-4104",
-      "product": "Apache Log4j 1.2",
-      "vulnerability_type": "JNDI Injection RCE"
+      "cve_id": "CVE-2021-4104",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j 1.2 (all versions)",
+      "vulnerability_type": "JNDI Injection RCE",
+      "description": "JMSAppender in Log4j 1.2 is vulnerable to deserialization of untrusted data when the attacker has write access to the Log4j configuration. The attacker can provide TopicBindingName and TopicConnectionFactoryBindingName configurations causing JMSAppender to perform JNDI requests that result in remote code execution in a similar fashion to CVE-2021-44228. Note this issue only affects Log4j 1.2 when specifically configured to use JMSAppender, which is not the default. Apache Log4j 1.2 reached end of life in August 2015. Users should upgrade to Log4j 2 as it addresses numerous other issues from the previous versions.",
+      "precondition": "JMSAppender configured + attacker write access to Log4j configuration",
+      "postcondition": "Remote code execution via JNDI requests"
     },
     {
       "id": "CVE-2021-44228",
-      "is_central": true,
-      "product": "Apache Log4j 2.x",
-      "vulnerability_type": "JNDI Injection RCE"
+      "cve_id": "CVE-2021-44228",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j2 2.0-beta9 through 2.15.0 (excluding 2.12.2, 2.12.3, 2.3.1)",
+      "vulnerability_type": "JNDI Injection RCE",
+      "description": "Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0 (along with 2.12.2, 2.12.3, and 2.3.1), this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects.",
+      "precondition": "Attacker control over log messages/parameters + message lookup substitution enabled",
+      "postcondition": "Remote code execution via LDAP/JNDI lookup"
     },
     {
       "id": "CVE-2021-44832",
-      "product": "Apache Log4j 2.x",
-      "vulnerability_type": "JNDI Injection RCE"
+      "cve_id": "CVE-2021-44832",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j2 2.0-beta7 through 2.17.0 (excluding 2.3.2 and 2.12.4)",
+      "vulnerability_type": "JNDI Injection RCE",
+      "description": "Apache Log4j2 versions 2.0-beta7 through 2.17.0 (excluding security fix releases 2.3.2 and 2.12.4) are vulnerable to a remote code execution (RCE) attack when a configuration uses a JDBC Appender with a JNDI LDAP data source URI when an attacker has control of the target LDAP server. This issue is fixed by limiting JNDI data source names to the java protocol in Log4j2 versions 2.17.1, 2.12.4, and 2.3.2.",
+      "precondition": "JDBC Appender configured with JNDI LDAP data source + attacker control of target LDAP server",
+      "postcondition": "Remote code execution"
     },
     {
       "id": "CVE-2021-45046",
-      "product": "Apache Log4j 2.x",
-      "vulnerability_type": "JNDI Injection RCE/Information Disclosure"
+      "cve_id": "CVE-2021-45046",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j 2.15.0 with non-default configurations",
+      "vulnerability_type": "JNDI Injection RCE/Information Disclosure",
+      "description": "It was found that the fix to address CVE-2021-44228 in Apache Log4j 2.15.0 was incomplete in certain non-default configurations. This could allows attackers with control over Thread Context Map (MDC) input data when the logging configuration uses a non-default Pattern Layout with either a Context Lookup (for example, $${ctx:loginId}) or a Thread Context Map pattern (%X, %mdc, or %MDC) to craft malicious input data using a JNDI Lookup pattern resulting in an information leak and remote code execution in some environments and local code execution in all environments. Log4j 2.16.0 (Java 8) and 2.12.2 (Java 7) fix this issue by removing support for message lookup patterns and disabling JNDI functionality by default.",
+      "precondition": "Control over Thread Context Map (MDC) + non-default Pattern Layout with Context Lookup/Thread Context Map pattern",
+      "postcondition": "Information leak and RCE in some environments, local code execution in all environments"
     },
     {
       "id": "CVE-2021-45105",
-      "product": "Apache Log4j 2.x",
-      "vulnerability_type": "Denial of Service"
+      "cve_id": "CVE-2021-45105",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j2 2.0-alpha1 through 2.16.0 (excluding 2.12.3 and 2.3.1)",
+      "vulnerability_type": "Denial of Service",
+      "description": "Apache Log4j2 versions 2.0-alpha1 through 2.16.0 (excluding 2.12.3 and 2.3.1) did not protect from uncontrolled recursion from self-referential lookups. This allows an attacker with control over Thread Context Map data to cause a denial of service when a crafted string is interpreted. This issue was fixed in Log4j 2.17.0, 2.12.3, and 2.3.1.",
+      "precondition": "Control over Thread Context Map data + crafted self-referential lookup string",
+      "postcondition": "Denial of service through uncontrolled recursion"
     },
     {
       "id": "CVE-2022-23302",
-      "product": "Apache Log4j 1.x",
-      "vulnerability_type": "JNDI Injection RCE"
+      "cve_id": "CVE-2022-23302",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j 1.x (all versions)",
+      "vulnerability_type": "JNDI Injection RCE",
+      "description": "JMSSink in all versions of Log4j 1.x is vulnerable to deserialization of untrusted data when the attacker has write access to the Log4j configuration or if the configuration references an LDAP service the attacker has access to. The attacker can provide a TopicConnectionFactoryBindingName configuration causing JMSSink to perform JNDI requests that result in remote code execution in a similar fashion to CVE-2021-4104. Note this issue only affects Log4j 1.x when specifically configured to use JMSSink, which is not the default. Apache Log4j 1.2 reached end of life in August 2015. Users should upgrade to Log4j 2 as it addresses numerous other issues from the previous versions.",
+      "precondition": "JMSSink configured + (write access to configuration OR attacker-controlled LDAP service)",
+      "postcondition": "Remote code execution via JNDI requests"
     },
     {
       "id": "CVE-2022-23307",
-      "product": "Apache Log4j 1.2.x",
-      "vulnerability_type": "Deserialization RCE"
+      "cve_id": "CVE-2022-23307",
+      "product": "Apache Log4j",
+      "platform": "Java",
+      "affected_version_range": "Log4j 1.2.x with Chainsaw component (prior to Chainsaw V2.0)",
+      "vulnerability_type": "Deserialization RCE",
+      "description": "CVE-2020-9493 identified a deserialization issue that was present in Apache Chainsaw. Prior to Chainsaw V2.0 Chainsaw was a component of Apache Log4j 1.2.x where the same issue exists.",
+      "precondition": "Chainsaw component processing untrusted serialized data",
+      "postcondition": "Malicious code execution"
+    }
+  ],
+  "links": [
+    {
+      "source": "CVE-2020-9488",
+      "target": "CVE-2021-44228",
+      "relation_type": "reconnaissance",
+      "description": "CVE-2020-9488 SMTP appender MitM attack leaks log messages containing system information and Log4j version, enabling reconnaissance for targeted CVE-2021-44228 JNDI injection attacks",
+      "evidence": "Postcondition 'Information disclosure' provides intelligence for precondition 'Attacker control over log messages/parameters'",
+      "verification_frequency": "5/5 candidates",
+      "factcheck_result": "PASS"
+    },
+    {
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-45046",
+      "relation_type": "incomplete_fix",
+      "description": "CVE-2021-45046 resulted from an incomplete fix for CVE-2021-44228 in Log4j 2.15.0",
+      "evidence": "CVE-2021-45046 description explicitly states 'the fix to address CVE-2021-44228 in Apache Log4j 2.15.0 was incomplete'",
+      "verification_frequency": "5/5 candidates",
+      "factcheck_result": "PASS"
+    },
+    {
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-4104",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both CVEs exploit JNDI injection via LDAP to achieve RCE, differing only in Log4j version (2.x vs 1.2)",
+      "evidence": "CVE-2021-4104 description states 'in a similar fashion to CVE-2021-44228'",
+      "verification_frequency": "5/5 candidates",
+      "factcheck_result": "PASS"
+    },
+    {
+      "source": "CVE-2021-45046",
+      "target": "CVE-2021-45105",
+      "relation_type": "precondition_met",
+      "description": "CVE-2021-45046 exploitation grants Thread Context Map control, which is the precondition for CVE-2021-45105 DoS attack",
+      "evidence": "Both require 'control over Thread Context Map' - CVE-2021-45046's postcondition satisfies CVE-2021-45105's precondition",
+      "verification_frequency": "5/5 candidates",
+      "factcheck_result": "PASS"
+    },
+    {
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-44832",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both exploit JNDI LDAP data sources to achieve RCE, sharing identical attack mechanism with different appender configurations",
+      "evidence": "Both use 'JNDI LDAP' for RCE - CVE-2021-44228 via message lookup, CVE-2021-44832 via JDBC Appender",
+      "verification_frequency": "5/5 candidates",
+      "factcheck_result": "PASS"
+    },
+    {
+      "source": "CVE-2021-4104",
+      "target": "CVE-2022-23302",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both use JNDI requests in Log4j 1.x to achieve RCE, differing only in component (JMSAppender vs JMSSink)",
+      "evidence": "CVE-2022-23302 description states 'in a similar fashion to CVE-2021-4104'",
+      "verification_frequency": "5/5 candidates",
+      "factcheck_result": "PASS"
+    },
+    {
+      "source": "CVE-2020-9493",
+      "target": "CVE-2022-23307",
+      "relation_type": "similar_attack_pattern",
+      "description": "Identical Chainsaw deserialization vulnerability exists in both CVEs across different Log4j versions",
+      "evidence": "CVE-2022-23307 description explicitly states 'CVE-2020-9493 identified a deserialization issue that was present in Apache Chainsaw... where the same issue exists'",
+      "verification_frequency": "5/5 candidates",
+      "factcheck_result": "PASS"
+    },
+    {
+      "source": "CVE-2017-5645",
+      "target": "CVE-2019-17571",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both are socket server deserialization RCE vulnerabilities, identical attack mechanism applied to different Log4j versions (2.x vs 1.2)",
+      "evidence": "Both use socket server deserialization to achieve RCE - CVE-2017-5645 (TCP/UDP), CVE-2019-17571 (SocketServer)",
+      "verification_frequency": "5/5 candidates",
+      "factcheck_result": "PASS"
     }
   ]
 }

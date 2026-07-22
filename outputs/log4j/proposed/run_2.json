@@ -1,158 +1,200 @@
 {
   "metadata": {
-    "candidate_id": 2,
-    "description": "Round 2 full investigation - relationship analysis based on CVE ID ascending order",
-    "total_nodes": 11,
-    "total_links": 15
+    "central_cve": "CVE-2021-44228",
+    "analysis_method": "CoVe Factored Verification with 5 independent iterations",
+    "verification_criteria": {
+      "frequency_threshold": "3/5 candidates minimum",
+      "evidence_requirement": "Explicit textual evidence in source data"
+    },
+    "total_nodes": 10,
+    "total_links": 7,
+    "graph_description": "Log4j vulnerability attack graph centered on CVE-2021-44228 (Log4Shell)",
+    "key_findings": [
+      "CVE-2021-44228 incomplete fix chain: 44228 → 45046 → 45105",
+      "JNDI injection cluster: 44228, 4104, 23302, 44832",
+      "Deserialization cluster: 2017-5645, 2019-17571, 2020-9493, 2022-23307"
+    ]
   },
   "nodes": [
     {
-      "id": "CVE-2017-5645",
-      "vulnerability_type": "Deserialization RCE",
-      "product": "Apache Log4j 2.x"
-    },
-    {
-      "id": "CVE-2019-17571",
-      "vulnerability_type": "Deserialization RCE",
-      "product": "Apache Log4j 1.2"
-    },
-    {
-      "id": "CVE-2020-9488",
-      "vulnerability_type": "Certificate Validation Bypass",
-      "product": "Apache Log4j 2.x"
-    },
-    {
-      "id": "CVE-2020-9493",
-      "vulnerability_type": "Deserialization RCE",
-      "product": "Apache Chainsaw"
-    },
-    {
-      "id": "CVE-2021-4104",
-      "vulnerability_type": "JNDI Injection RCE",
-      "product": "Apache Log4j 1.2"
-    },
-    {
       "id": "CVE-2021-44228",
-      "vulnerability_type": "JNDI Injection RCE",
-      "product": "Apache Log4j 2.x",
-      "is_central": true
-    },
-    {
-      "id": "CVE-2021-44832",
-      "vulnerability_type": "JNDI Injection RCE",
-      "product": "Apache Log4j 2.x"
+      "type": "vulnerability",
+      "data": {
+        "cve_id": "CVE-2021-44228",
+        "severity": "CRITICAL",
+        "description": "Log4Shell - JNDI injection via log messages enabling remote code execution",
+        "affected_version": "Log4j2 2.0-beta9 through 2.15.0 (excluding 2.12.2, 2.12.3, 2.3.1)",
+        "vulnerability_type": "JNDI Injection RCE",
+        "precondition": "Attacker control over log messages/parameters + message lookup substitution enabled",
+        "postcondition": "Remote code execution via LDAP/JNDI lookup",
+        "is_central": true
+      }
     },
     {
       "id": "CVE-2021-45046",
-      "vulnerability_type": "JNDI Injection RCE/Information Disclosure",
-      "product": "Apache Log4j 2.x"
+      "type": "vulnerability",
+      "data": {
+        "cve_id": "CVE-2021-45046",
+        "description": "Incomplete fix for CVE-2021-44228 in version 2.15.0",
+        "affected_version": "Log4j 2.15.0 with non-default configurations",
+        "vulnerability_type": "JNDI Injection RCE/Information Disclosure",
+        "precondition": "Control over Thread Context Map (MDC) + non-default Pattern Layout",
+        "postcondition": "Information leak and RCE in some environments"
+      }
     },
     {
       "id": "CVE-2021-45105",
-      "vulnerability_type": "Denial of Service",
-      "product": "Apache Log4j 2.x"
+      "type": "vulnerability",
+      "data": {
+        "cve_id": "CVE-2021-45105",
+        "description": "Uncontrolled recursion from self-referential lookups in Thread Context Map",
+        "affected_version": "Log4j2 2.0-alpha1 through 2.16.0 (excluding 2.12.3, 2.3.1)",
+        "vulnerability_type": "Denial of Service",
+        "precondition": "Control over Thread Context Map data + crafted self-referential lookup string",
+        "postcondition": "Denial of service through uncontrolled recursion"
+      }
+    },
+    {
+      "id": "CVE-2021-4104",
+      "type": "vulnerability",
+      "data": {
+        "cve_id": "CVE-2021-4104",
+        "description": "JMSAppender JNDI injection in Log4j 1.2 - similar to Log4Shell",
+        "affected_version": "Log4j 1.2 (all versions)",
+        "vulnerability_type": "JNDI Injection RCE",
+        "precondition": "JMSAppender configured + attacker write access to Log4j configuration",
+        "postcondition": "Remote code execution via JNDI requests"
+      }
     },
     {
       "id": "CVE-2022-23302",
-      "vulnerability_type": "JNDI Injection RCE",
-      "product": "Apache Log4j 1.x"
+      "type": "vulnerability",
+      "data": {
+        "cve_id": "CVE-2022-23302",
+        "description": "JMSSink JNDI injection in Log4j 1.x - similar to CVE-2021-4104",
+        "affected_version": "Log4j 1.x (all versions)",
+        "vulnerability_type": "JNDI Injection RCE",
+        "precondition": "JMSSink configured + write access to configuration or attacker-controlled LDAP",
+        "postcondition": "Remote code execution via JNDI requests"
+      }
+    },
+    {
+      "id": "CVE-2021-44832",
+      "type": "vulnerability",
+      "data": {
+        "cve_id": "CVE-2021-44832",
+        "description": "JDBC Appender JNDI LDAP RCE",
+        "affected_version": "Log4j2 2.0-beta7 through 2.17.0 (excluding 2.3.2, 2.12.4)",
+        "vulnerability_type": "JNDI Injection RCE",
+        "precondition": "JDBC Appender configured with JNDI LDAP data source + attacker control of target LDAP server",
+        "postcondition": "Remote code execution"
+      }
+    },
+    {
+      "id": "CVE-2017-5645",
+      "type": "vulnerability",
+      "data": {
+        "cve_id": "CVE-2017-5645",
+        "description": "TCP/UDP socket server deserialization RCE",
+        "affected_version": "Log4j 2.x before 2.8.2",
+        "vulnerability_type": "Deserialization RCE",
+        "precondition": "TCP/UDP socket server enabled for receiving serialized log events",
+        "postcondition": "Arbitrary code execution"
+      }
+    },
+    {
+      "id": "CVE-2019-17571",
+      "type": "vulnerability",
+      "data": {
+        "cve_id": "CVE-2019-17571",
+        "description": "SocketServer deserialization RCE in Log4j 1.2",
+        "affected_version": "Log4j 1.2 up to 1.2.17",
+        "vulnerability_type": "Deserialization RCE",
+        "precondition": "SocketServer listening to untrusted network traffic + deserialization gadget present",
+        "postcondition": "Remote arbitrary code execution"
+      }
+    },
+    {
+      "id": "CVE-2020-9493",
+      "type": "vulnerability",
+      "data": {
+        "cve_id": "CVE-2020-9493",
+        "description": "Chainsaw deserialization flaw",
+        "affected_version": "Apache Chainsaw < 2.1.0",
+        "vulnerability_type": "Deserialization RCE",
+        "precondition": "Processing untrusted serialized data in Chainsaw",
+        "postcondition": "Malicious code execution"
+      }
     },
     {
       "id": "CVE-2022-23307",
-      "vulnerability_type": "Deserialization RCE",
-      "product": "Apache Log4j 1.2.x"
+      "type": "vulnerability",
+      "data": {
+        "cve_id": "CVE-2022-23307",
+        "description": "Chainsaw deserialization - same issue as CVE-2020-9493",
+        "affected_version": "Log4j 1.2.x with Chainsaw component (prior to Chainsaw V2.0)",
+        "vulnerability_type": "Deserialization RCE",
+        "precondition": "Chainsaw component processing untrusted serialized data",
+        "postcondition": "Malicious code execution"
+      }
     }
   ],
   "links": [
     {
       "source": "CVE-2021-44228",
       "target": "CVE-2021-45046",
-      "type": "incomplete_fix",
-      "evidence": "The description explicitly states 'fix to address CVE-2021-44228 in Apache Log4j 2.15.0 was incomplete'"
+      "relation_type": "incomplete_fix",
+      "description": "CVE-2021-45046 was an incomplete fix for CVE-2021-44228 in Log4j 2.15.0, allowing continued exploitation in non-default configurations",
+      "evidence": "Explicit statement: 'the fix to address CVE-2021-44228 in Apache Log4j 2.15.0 was incomplete'",
+      "frequency": "5/5"
     },
     {
       "source": "CVE-2021-44228",
       "target": "CVE-2021-4104",
-      "type": "similar_attack_pattern",
-      "evidence": "The CVE-2021-4104 description explicitly states 'in a similar fashion to CVE-2021-44228'"
-    },
-    {
-      "source": "CVE-2021-44228",
-      "target": "CVE-2021-44832",
-      "type": "similar_attack_pattern",
-      "evidence": "Same JNDI LDAP RCE principle, with only the JDBC Appender path differing"
-    },
-    {
-      "source": "CVE-2021-44228",
-      "target": "CVE-2022-23302",
-      "type": "similar_attack_pattern",
-      "evidence": "JNDI RCE family, same family through CVE-2021-4104"
-    },
-    {
-      "source": "CVE-2021-45046",
-      "target": "CVE-2021-45105",
-      "type": "incomplete_fix",
-      "evidence": "DoS remained even after 2.16.0 (fix for 45046), with an additional fix in 2.17.0"
-    },
-    {
-      "source": "CVE-2021-45105",
-      "target": "CVE-2021-44228",
-      "type": "incomplete_fix",
-      "evidence": "Patch chain: 44228→45046→45105. Affected versions 2.0-alpha1~2.16.0"
+      "relation_type": "similar_attack_pattern",
+      "description": "Both vulnerabilities exploit JNDI injection mechanisms for remote code execution",
+      "evidence": "CVE-2021-4104 explicitly states 'remote code execution in a similar fashion to CVE-2021-44228'",
+      "frequency": "5/5"
     },
     {
       "source": "CVE-2021-4104",
       "target": "CVE-2022-23302",
-      "type": "similar_attack_pattern",
-      "evidence": "The CVE-2022-23302 description explicitly states 'similar fashion to CVE-2021-4104'"
-    },
-    {
-      "source": "CVE-2020-9488",
-      "target": "CVE-2021-44228",
-      "type": "reconnaissance",
-      "evidence": "Log information disclosure (MitM) → identify the server environment and Log4j version → precisely target a JNDI attack"
-    },
-    {
-      "source": "CVE-2017-5645",
-      "target": "CVE-2019-17571",
-      "type": "similar_attack_pattern",
-      "evidence": "Same deserialization RCE principle through socket servers (2.x vs 1.2.x)"
-    },
-    {
-      "source": "CVE-2017-5645",
-      "target": "CVE-2020-9493",
-      "type": "similar_attack_pattern",
-      "evidence": "Untrusted serialized data processing → arbitrary code execution, same deserialization principle"
-    },
-    {
-      "source": "CVE-2017-5645",
-      "target": "CVE-2022-23307",
-      "type": "similar_attack_pattern",
-      "evidence": "Same deserialization RCE principle"
-    },
-    {
-      "source": "CVE-2017-5645",
-      "target": "CVE-2023-26464",
-      "type": "similar_attack_pattern",
-      "evidence": "Attack family based on deserialization of untrusted data"
-    },
-    {
-      "source": "CVE-2019-17571",
-      "target": "CVE-2023-26464",
-      "type": "similar_attack_pattern",
-      "evidence": "Attack based on the same SocketServer/SocketAppender component family"
+      "relation_type": "similar_attack_pattern",
+      "description": "Both use JNDI requests through Log4j 1.x appenders (JMSAppender vs JMSSink)",
+      "evidence": "CVE-2022-23302 explicitly states 'remote code execution in a similar fashion to CVE-2021-4104'",
+      "frequency": "5/5"
     },
     {
       "source": "CVE-2020-9493",
       "target": "CVE-2022-23307",
-      "type": "similar_attack_pattern",
-      "evidence": "The CVE-2022-23307 description explicitly states 'CVE-2020-9493 identified...same issue exists'"
+      "relation_type": "similar_attack_pattern",
+      "description": "Identical deserialization issue in Apache Chainsaw component across different Log4j versions",
+      "evidence": "CVE-2022-23307 states 'CVE-2020-9493 identified a deserialization issue... where the same issue exists'",
+      "frequency": "5/5"
     },
     {
-      "source": "CVE-2021-44832",
-      "target": "CVE-2021-45046",
-      "type": "similar_attack_pattern",
-      "evidence": "Same JNDI RCE family, Log4j 2.x family"
+      "source": "CVE-2021-44228",
+      "target": "CVE-2021-44832",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both exploit JNDI LDAP mechanisms in Log4j2 for remote code execution",
+      "evidence": "Both descriptions mention JNDI and LDAP exploitation for RCE",
+      "frequency": "5/5"
+    },
+    {
+      "source": "CVE-2021-45046",
+      "target": "CVE-2021-45105",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both exploit Thread Context Map in consecutive Log4j2 patch versions",
+      "evidence": "Both require control over Thread Context Map data, affecting versions 2.15.0 and 2.16.0 respectively",
+      "frequency": "4/5"
+    },
+    {
+      "source": "CVE-2017-5645",
+      "target": "CVE-2019-17571",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both exploit socket server deserialization for remote code execution",
+      "evidence": "Both descriptions detail socket server components deserializing untrusted data leading to RCE",
+      "frequency": "4/5"
     }
   ]
 }
