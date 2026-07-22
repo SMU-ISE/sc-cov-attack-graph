@@ -116,8 +116,8 @@
     {
       "source": "CVE-2021-44228",
       "target": "CVE-2021-44832",
-      "relation_type": "mitigation_issue",
-      "description": "Even after JNDI lookup mitigation measures, the JNDI LDAP data source vulnerability in the JDBC Appender remained. Exploitation is possible through version 2.17.0."
+      "relation_type": "precondition_met",
+      "description": "Successful exploitation of CVE-2021-44228 may provide code execution and access to the Log4j configuration. This access could be used to configure the JDBC Appender with a JNDI LDAP data source and an attacker-controlled LDAP server, which are prerequisites for attempting CVE-2021-44832."
     },
     {
       "source": "CVE-2021-4104",

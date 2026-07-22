@@ -178,8 +178,8 @@
     {
       "source": "CVE-2021-45046",
       "target": "CVE-2021-45105",
-      "relation_type": "mitigation_issue",
-      "description": "While attempting to fully mitigate CVE-2021-45046 in version 2.16.0, the self-referential lookup DoS issue (CVE-2021-45105) was discovered, demonstrating incomplete threat modeling during the patching process"
+      "relation_type": "similar_attack_pattern",
+      "description": "Both vulnerabilities involve attacker-controlled Thread Context Map data being processed through Log4j lookup functionality. CVE-2021-45046 uses crafted JNDI lookup patterns to cause information disclosure or code execution, whereas CVE-2021-45105 uses self-referential lookup strings to trigger uncontrolled recursion and denial of service."
     },
     {
       "source": "CVE-2021-44228",
