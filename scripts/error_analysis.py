@@ -145,10 +145,24 @@ def classify_run(generated: Set[Tuple[str, str, str]],
     return counts, items
 
 
+def identity(error_type: str, source: str, target: str, rel: str) -> Tuple:
+    """Identity of a distinct error, used by the 'unique' aggregation.
+
+    Hallucination, direction and missing errors are identified by the CVE pair
+    alone. A classification error also carries the generated relationship type,
+    because emitting two different wrong types for the same pair is two
+    distinct errors.
+    """
+    if error_type == CLASSIFICATION:
+        return (source, target, rel)
+    return (source, target)
+
+
 def analyse_method(method_dir: str, gt: Dict[Pair, Set[str]]):
     """Analyse all runs of one method."""
     per_run_counts = []
     aggregated_items: Dict[str, Counter] = {t: Counter() for t in ERROR_TYPES}
+    unique_errors: Dict[str, Set[Tuple]] = {t: set() for t in ERROR_TYPES}
     detail_rows = []
 
     for i in range(1, RUN_COUNT + 1):
@@ -163,6 +177,7 @@ def analyse_method(method_dir: str, gt: Dict[Pair, Set[str]]):
         for etype, entries in items.items():
             for source, target, rel, gt_types in entries:
                 aggregated_items[etype][(source, target, rel, tuple(gt_types))] += 1
+                unique_errors[etype].add(identity(etype, source, target, rel))
                 detail_rows.append({
                     "run": i,
                     "error_type": etype,
@@ -172,7 +187,7 @@ def analyse_method(method_dir: str, gt: Dict[Pair, Set[str]]):
                     "ground_truth_relationship": "|".join(gt_types),
                 })
 
-    return per_run_counts, aggregated_items, detail_rows
+    return per_run_counts, aggregated_items, unique_errors, detail_rows
 
 
 def report(outputs_dir: str, dataset: str, gt_path: str, aggregate: str,
@@ -202,7 +217,7 @@ def report(outputs_dir: str, dataset: str, gt_path: str, aggregate: str,
             continue
 
         try:
-            per_run_counts, agg_items, detail_rows = analyse_method(method_dir, gt)
+            per_run_counts, agg_items, uniq, detail_rows = analyse_method(method_dir, gt)
         except FileNotFoundError as e:
             print(f"{label:<22}  ! {e}")
             continue
@@ -215,20 +230,25 @@ def report(outputs_dir: str, dataset: str, gt_path: str, aggregate: str,
 
         values = {}
         for etype in ERROR_TYPES:
-            total = sum(c[etype] for c in per_run_counts)
-            values[etype] = total if aggregate == "sum" else total / RUN_COUNT
+            if aggregate == "unique":
+                values[etype] = len(uniq[etype])
+            else:
+                total = sum(c[etype] for c in per_run_counts)
+                values[etype] = total if aggregate == "sum" else total / RUN_COUNT
 
         total_all = sum(values.values())
-        fmt = "{:>14.0f}{:>10.0f}{:>12.0f}{:>16.0f}{:>9.0f}" if aggregate == "sum" \
+        fmt = "{:>14.0f}{:>10.0f}{:>12.0f}{:>16.0f}{:>9.0f}" \
+            if aggregate in ("sum", "unique") \
             else "{:>14.1f}{:>10.1f}{:>12.1f}{:>16.1f}{:>9.1f}"
         print(f"{label:<22}" + fmt.format(
             values[HALLUCINATION], values[MISSING],
             values[DIRECTION], values[CLASSIFICATION], total_all))
 
         if per_run_detail:
+            int_fmt = "{:>14.0f}{:>10.0f}{:>12.0f}{:>16.0f}{:>9.0f}"
             for i, c in enumerate(per_run_counts, 1):
                 sub = f"{'  run_' + str(i):<22}"
-                print(sub + fmt.format(
+                print(sub + int_fmt.format(
                     c[HALLUCINATION], c[MISSING], c[DIRECTION], c[CLASSIFICATION],
                     c[HALLUCINATION] + c[MISSING] + c[DIRECTION] + c[CLASSIFICATION]))
 
@@ -236,8 +256,14 @@ def report(outputs_dir: str, dataset: str, gt_path: str, aggregate: str,
     if aggregate == "mean":
         print("Values are averaged over 5 runs. Missing links equal the FN "
               "column reported by evaluate_links.py.")
+    elif aggregate == "sum":
+        print("Values are summed over 5 runs. An error recurring in several "
+              "runs is counted once per run.")
     else:
-        print("Values are summed over 5 runs.")
+        print("Values are counts of distinct erroneous links across the 5 runs. "
+              "An error recurring in several runs is counted once, so these "
+              "values use a different basis from the FN column reported by "
+              "evaluate_links.py.")
 
     if not any_method:
         print("No method directories found. Check --outputs-dir / --dataset.")
@@ -305,8 +331,11 @@ def main():
     parser.add_argument("--gt", default=None,
                         help="Path to ground_truth_edges.csv "
                              "(default: dataset/{dataset}/ground_truth_edges.csv)")
-    parser.add_argument("--aggregate", choices=["mean", "sum"], default="mean",
-                        help="Report per-run means (default) or totals over 5 runs.")
+    parser.add_argument("--aggregate", choices=["unique", "mean", "sum"],
+                        default="unique",
+                        help="unique (default): count distinct erroneous links "
+                             "across the 5 runs. mean: per-run averages. "
+                             "sum: totals over the 5 runs.")
     parser.add_argument("--per-run", action="store_true",
                         help="Also print per-run counts.")
     parser.add_argument("--examples", type=int, default=2,
