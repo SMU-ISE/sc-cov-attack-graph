@@ -1,0 +1,336 @@
+{
+  "metadata": {
+    "central_cve": "CVE-2017-12477",
+    "graph_description": "Semantic attack graph centered on CVE-2017-12477 (bpserverd authentication bypass). This graph maps exploitation paths across multiple Unitrends Backup versions (< 10.0.0 through < 10.5.5-2), revealing incomplete fixes, privilege escalation chains, and multi-stage attack scenarios.",
+    "total_nodes": 19,
+    "total_links": 22,
+    "version_range_analyzed": "< 10.0.0 to < 10.5.5-2",
+    "attack_surface": "Network services (bpserverd, web UI, SQL), local privilege escalation, information disclosure"
+  },
+  "nodes": [
+    {
+      "cve_id": "CVE-2017-12477",
+      "product": "kaseya unitrends",
+      "description": "It was discovered that the bpserverd proprietary protocol in Unitrends Backup (UB) before 10.0.0, as invoked through xinetd, has an issue in which its authentication can be bypassed. A remote attacker could use this issue to execute arbitrary commands with root privilege on the target system.",
+      "platform": "Unitrends Backup (bpserverd daemon via xinetd)",
+      "affected_version_range": "< 10.0.0",
+      "vulnerability_type": "Authentication Bypass leading to Remote Code Execution",
+      "precondition": "network access to bpserverd service through xinetd",
+      "postcondition": "arbitrary command execution with root privileges"
+    },
+    {
+      "cve_id": "CVE-2017-12478",
+      "product": "kaseya unitrends",
+      "description": "It was discovered that the api/storage web interface in Unitrends Backup (UB) before 10.0.0 has an issue in which one of its input parameters was not validated. A remote attacker could use this flaw to bypass authentication and execute arbitrary commands with root privilege on the target system.",
+      "platform": "Unitrends Backup (api/storage web interface)",
+      "affected_version_range": "< 10.0.0",
+      "vulnerability_type": "Input Validation Bypass leading to Authentication Bypass and RCE",
+      "precondition": "network access to api/storage web interface",
+      "postcondition": "authentication bypassed and arbitrary commands executed with root privileges"
+    },
+    {
+      "cve_id": "CVE-2017-12479",
+      "product": "kaseya unitrends",
+      "description": "It was discovered that an issue in the session logic in Unitrends Backup (UB) before 10.0.0 allowed using the LOGDIR environment variable during a web session to elevate an existing low-privilege user to root privileges. A remote attacker with existing low-privilege credentials could then execute arbitrary commands with root privileges.",
+      "platform": "Unitrends Backup (web session management)",
+      "affected_version_range": "< 10.0.0",
+      "vulnerability_type": "Privilege Escalation via Environment Variable Manipulation",
+      "precondition": "low-privilege user credentials and active web session",
+      "postcondition": "root privileges obtained and arbitrary command execution"
+    },
+    {
+      "cve_id": "CVE-2018-6328",
+      "product": "kaseya unitrends",
+      "description": "It was discovered that the Unitrends Backup (UB) before 10.1.0 user interface was exposed to an authentication bypass, which then could allow an unauthenticated user to inject arbitrary commands into its /api/hosts parameters using backquotes.",
+      "platform": "Unitrends Backup (user interface /api/hosts)",
+      "affected_version_range": "< 10.1.0",
+      "vulnerability_type": "Authentication Bypass leading to Command Injection",
+      "precondition": "network access to user interface /api/hosts endpoint",
+      "postcondition": "authentication bypassed and arbitrary command injection via backquotes"
+    },
+    {
+      "cve_id": "CVE-2021-40385",
+      "description": "An issue was discovered in the server software in Kaseya Unitrends Backup Software before 10.5.5-2. There is a privilege escalation from read-only user to admin.",
+      "product": "kaseya unitrends",
+      "platform": "Kaseya Unitrends Backup Server",
+      "affected_version_range": "< 10.5.5-2",
+      "vulnerability_type": "Privilege Escalation",
+      "precondition": "Read-only user authentication",
+      "postcondition": "Admin privileges obtained"
+    },
+    {
+      "cve_id": "CVE-2021-40387",
+      "description": "An issue was discovered in the server software in Kaseya Unitrends Backup Software before 10.5.5-2. There is authenticated remote code execution.",
+      "product": "kaseya unitrends",
+      "platform": "Kaseya Unitrends Backup Server",
+      "affected_version_range": "< 10.5.5-2",
+      "vulnerability_type": "Remote Code Execution (Authenticated)",
+      "precondition": "User authentication",
+      "postcondition": "Arbitrary code execution"
+    },
+    {
+      "cve_id": "CVE-2021-43033",
+      "product": "kaseya unitrends",
+      "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. Multiple functions in the bpserverd daemon were vulnerable to arbitrary remote code execution as root. The vulnerability was caused by untrusted input (received by the server) being passed to system calls.",
+      "platform": "Kaseya Unitrends Backup Appliance (bpserverd daemon)",
+      "affected_version_range": "< 10.5.5",
+      "vulnerability_type": "Remote Code Execution via Command Injection",
+      "precondition": "ability to send untrusted input to bpserverd daemon",
+      "postcondition": "arbitrary code execution as root"
+    },
+    {
+      "cve_id": "CVE-2021-43034",
+      "product": "kaseya unitrends",
+      "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. A world writable file allowed local users to execute arbitrary code as the user apache, leading to privilege escalation.",
+      "platform": "Kaseya Unitrends Backup Appliance",
+      "affected_version_range": "< 10.5.5",
+      "vulnerability_type": "Local Privilege Escalation via Insecure File Permissions",
+      "precondition": "local user access",
+      "postcondition": "code execution as apache user"
+    },
+    {
+      "cve_id": "CVE-2021-43035",
+      "product": "kaseya unitrends",
+      "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. Two unauthenticated SQL injection vulnerabilities were discovered, allowing arbitrary SQL queries to be injected and executed under the postgres superuser account. Remote code execution was possible, leading to full access to the postgres user account.",
+      "platform": "Kaseya Unitrends Backup Appliance (PostgreSQL)",
+      "affected_version_range": "< 10.5.5",
+      "vulnerability_type": "Unauthenticated SQL Injection leading to RCE",
+      "precondition": "network access to vulnerable SQL endpoints",
+      "postcondition": "postgres superuser access obtained and remote code execution"
+    },
+    {
+      "cve_id": "CVE-2021-43036",
+      "product": "kaseya unitrends",
+      "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The password for the PostgreSQL wguest account is weak.",
+      "platform": "Kaseya Unitrends Backup Appliance (PostgreSQL)",
+      "affected_version_range": "< 10.5.5",
+      "vulnerability_type": "Weak Default Credentials",
+      "precondition": "knowledge of weak password or brute force capability",
+      "postcondition": "wguest PostgreSQL account access"
+    },
+    {
+      "cve_id": "CVE-2021-43038",
+      "product": "kaseya unitrends",
+      "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The wguest account could execute commands by injecting into PostgreSQL trigger functions. This allowed privilege escalation from the wguest user to the postgres user.",
+      "platform": "Kaseya Unitrends Backup Appliance (PostgreSQL)",
+      "affected_version_range": "< 10.5.5",
+      "vulnerability_type": "Privilege Escalation via SQL Trigger Injection",
+      "precondition": "wguest PostgreSQL account access",
+      "postcondition": "postgres user privileges obtained via trigger function injection"
+    },
+    {
+      "cve_id": "CVE-2021-43039",
+      "product": "kaseya unitrends",
+      "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The Samba file sharing service allowed anonymous read/write access.",
+      "platform": "Kaseya Unitrends Backup Appliance (Samba)",
+      "affected_version_range": "< 10.5.5",
+      "vulnerability_type": "Improper Access Control (Anonymous Access)",
+      "precondition": "network access to Samba service",
+      "postcondition": "anonymous read/write access to file shares"
+    },
+    {
+      "cve_id": "CVE-2021-43040",
+      "product": "kaseya unitrends",
+      "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The privileged vaultServer could be leveraged to create arbitrary writable files, leading to privilege escalation.",
+      "platform": "Kaseya Unitrends Backup Appliance (vaultServer)",
+      "affected_version_range": "< 10.5.5",
+      "vulnerability_type": "Arbitrary File Write leading to Privilege Escalation",
+      "precondition": "ability to interact with privileged vaultServer",
+      "postcondition": "arbitrary file creation and privilege escalation"
+    },
+    {
+      "cve_id": "CVE-2021-43041",
+      "product": "kaseya unitrends",
+      "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. A crafted HTTP request could induce a format string vulnerability in the privileged vaultServer application.",
+      "platform": "Kaseya Unitrends Backup Appliance (vaultServer)",
+      "affected_version_range": "< 10.5.5",
+      "vulnerability_type": "Format String Vulnerability",
+      "precondition": "ability to send crafted HTTP requests to vaultServer",
+      "postcondition": "potential code execution in privileged vaultServer context"
+    },
+    {
+      "cve_id": "CVE-2021-43042",
+      "product": "kaseya unitrends",
+      "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. A buffer overflow existed in the vaultServer component. This was exploitable by a remote unauthenticated attacker.",
+      "platform": "Kaseya Unitrends Backup Appliance (vaultServer)",
+      "affected_version_range": "< 10.5.5",
+      "vulnerability_type": "Unauthenticated Remote Buffer Overflow",
+      "precondition": "network access to vaultServer component",
+      "postcondition": "potential remote code execution"
+    },
+    {
+      "cve_id": "CVE-2021-43043",
+      "product": "kaseya unitrends",
+      "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The apache user could read arbitrary files such as /etc/shadow by abusing an insecure Sudo rule.",
+      "platform": "Kaseya Unitrends Backup Appliance",
+      "affected_version_range": "< 10.5.5",
+      "vulnerability_type": "Arbitrary File Read via Sudo Misconfiguration",
+      "precondition": "apache user access",
+      "postcondition": "ability to read sensitive files including /etc/shadow"
+    },
+    {
+      "cve_id": "CVE-2021-43044",
+      "product": "kaseya unitrends",
+      "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The SNMP daemon was configured with a weak default community.",
+      "platform": "Kaseya Unitrends Backup Appliance (SNMP daemon)",
+      "affected_version_range": "< 10.5.5",
+      "vulnerability_type": "Weak Default Configuration (SNMP Community String)",
+      "precondition": "network access to SNMP service",
+      "postcondition": "unauthorized SNMP access and information disclosure"
+    },
+    {
+      "cve_id": "CVE-2021-40386",
+      "product": "kaseya unitrends",
+      "description": "Kaseya Unitrends Client/Agent through 10.5,5 allows remote attackers to execute arbitrary code.",
+      "platform": "Kaseya Unitrends Client/Agent",
+      "affected_version_range": "<= 10.5.5",
+      "vulnerability_type": "Remote Code Execution",
+      "precondition": "network access to client/agent",
+      "postcondition": "arbitrary code execution"
+    },
+    {
+      "cve_id": "CVE-2021-43037",
+      "product": "kaseya unitrends",
+      "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The Unitrends Windows agent was vulnerable to DLL injection and binary planting due to insecure default permissions. This allowed privilege escalation from an unprivileged user to SYSTEM.",
+      "platform": "Kaseya Unitrends Windows Agent",
+      "affected_version_range": "< 10.5.5",
+      "vulnerability_type": "DLL Injection / Binary Planting leading to Privilege Escalation",
+      "precondition": "unprivileged user access on Windows system with Unitrends agent",
+      "postcondition": "SYSTEM privileges obtained"
+    }
+  ],
+  "links": [
+    {
+      "source": "CVE-2017-12477",
+      "target": "CVE-2021-43033",
+      "relation_type": "incomplete_fix",
+      "description": "Both vulnerabilities affect the same bpserverd daemon component. CVE-2017-12477 was patched in v10.0.0, but CVE-2021-43033 shows that bpserverd remained vulnerable to RCE through command injection until v10.5.5, indicating the original fix was incomplete or a regression occurred."
+    },
+    {
+      "source": "CVE-2017-12477",
+      "target": "CVE-2017-12478",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both CVEs exploit authentication bypass vulnerabilities in different Unitrends components (bpserverd vs api/storage) to achieve the same outcome: remote code execution with root privileges. They represent parallel attack vectors on the same version range (< 10.0.0)."
+    },
+    {
+      "source": "CVE-2017-12477",
+      "target": "CVE-2018-6328",
+      "relation_type": "similar_attack_pattern",
+      "description": "CVE-2018-6328 continues the pattern of authentication bypass leading to command execution, affecting versions < 10.1.0. This suggests the authentication bypass attack pattern persisted across multiple patches and components."
+    },
+    {
+      "source": "CVE-2021-40385",
+      "target": "CVE-2017-12479",
+      "relation_type": "precondition_met",
+      "description": "CVE-2021-40385 allows escalation from read-only to admin user. This admin-level access satisfies the precondition for CVE-2017-12479 which requires 'low-privilege user credentials' to exploit the LOGDIR environment variable for root escalation."
+    },
+    {
+      "source": "CVE-2021-40385",
+      "target": "CVE-2021-40387",
+      "relation_type": "precondition_met",
+      "description": "After gaining admin privileges through CVE-2021-40385, an attacker can leverage CVE-2021-40387 which requires user authentication to execute arbitrary code. The admin credentials enable this authenticated RCE."
+    },
+    {
+      "source": "CVE-2021-43044",
+      "target": "CVE-2017-12477",
+      "relation_type": "reconnaissance",
+      "description": "The weak SNMP community string (CVE-2021-43044) allows attackers to enumerate system information including running services, network configuration, and installed software versions. This reconnaissance data helps identify that bpserverd is running and vulnerable to CVE-2017-12477."
+    },
+    {
+      "source": "CVE-2021-43039",
+      "target": "CVE-2017-12477",
+      "relation_type": "reconnaissance",
+      "description": "Anonymous Samba access (CVE-2021-43039) enables attackers to browse backup configurations, log files, and system documentation that may reveal the presence and version of bpserverd, facilitating targeted exploitation of CVE-2017-12477."
+    },
+    {
+      "source": "CVE-2021-43036",
+      "target": "CVE-2021-43038",
+      "relation_type": "precondition_met",
+      "description": "The weak password for the PostgreSQL wguest account (CVE-2021-43036) directly enables CVE-2021-43038. Once an attacker gains wguest access, they can inject malicious code into PostgreSQL trigger functions to escalate to postgres superuser privileges."
+    },
+    {
+      "source": "CVE-2021-43038",
+      "target": "CVE-2021-43035",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both CVEs target PostgreSQL for privilege escalation to the postgres superuser account. CVE-2021-43038 uses SQL trigger injection from authenticated wguest access, while CVE-2021-43035 uses unauthenticated SQL injection. Both achieve the same postcondition: postgres superuser access and RCE capability."
+    },
+    {
+      "source": "CVE-2021-43034",
+      "target": "CVE-2021-43043",
+      "relation_type": "precondition_met",
+      "description": "The world-writable file vulnerability (CVE-2021-43034) allows a local user to execute code as the apache user. This apache-level access is the exact precondition needed for CVE-2021-43043, which allows the apache user to read arbitrary files like /etc/shadow via sudo misconfiguration."
+    },
+    {
+      "source": "CVE-2021-43043",
+      "target": "CVE-2017-12479",
+      "relation_type": "reconnaissance",
+      "description": "Reading /etc/shadow through CVE-2021-43043 provides password hashes for low-privilege users. Cracking these hashes yields credentials that satisfy the precondition for CVE-2017-12479 (low-privilege credentials needed for LOGDIR environment variable exploitation)."
+    },
+    {
+      "source": "CVE-2021-43042",
+      "target": "CVE-2021-43041",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both CVEs target the vaultServer component with memory corruption vulnerabilities. CVE-2021-43042 exploits a buffer overflow while CVE-2021-43041 exploits a format string vulnerability. Both are remotely exploitable and aim to achieve code execution in the privileged vaultServer context."
+    },
+    {
+      "source": "CVE-2021-43041",
+      "target": "CVE-2021-43040",
+      "relation_type": "precondition_met",
+      "description": "Successful exploitation of the format string vulnerability in vaultServer (CVE-2021-43041) grants code execution in the privileged vaultServer context. This enables interaction with vaultServer to exploit CVE-2021-43040's arbitrary file write vulnerability for further privilege escalation."
+    },
+    {
+      "source": "CVE-2018-6328",
+      "target": "CVE-2021-43033",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both vulnerabilities enable command injection for remote code execution. CVE-2018-6328 uses backquote injection through /api/hosts after authentication bypass, while CVE-2021-43033 injects commands through bpserverd's system calls. They represent evolution of command injection techniques across versions."
+    },
+    {
+      "source": "CVE-2021-43039",
+      "target": "CVE-2021-43034",
+      "relation_type": "reconnaissance",
+      "description": "Anonymous Samba access (CVE-2021-43039) allows attackers to identify world-writable files and their locations. This reconnaissance helps locate the specific world-writable file exploited in CVE-2021-43034 for privilege escalation to apache user."
+    },
+    {
+      "source": "CVE-2021-40386",
+      "target": "CVE-2021-43037",
+      "relation_type": "precondition_met",
+      "description": "CVE-2021-40386 enables remote code execution on the Unitrends Client/Agent. This RCE can be used to gain initial unprivileged user access on a Windows system, which is the precondition needed to exploit CVE-2021-43037's DLL injection vulnerability for SYSTEM escalation."
+    },
+    {
+      "source": "CVE-2021-43044",
+      "target": "CVE-2021-43039",
+      "relation_type": "reconnaissance",
+      "description": "SNMP enumeration (CVE-2021-43044) reveals network shares and services running on the system, including Samba. This information guides attackers to probe the Samba service where they discover the anonymous access vulnerability (CVE-2021-43039)."
+    },
+    {
+      "source": "CVE-2017-12478",
+      "target": "CVE-2018-6328",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both CVEs exploit input validation failures to bypass authentication and inject commands. CVE-2017-12478 uses unvalidated parameters in api/storage, while CVE-2018-6328 uses backquote injection in /api/hosts. They demonstrate persistent input validation weaknesses across web interface endpoints."
+    },
+    {
+      "source": "CVE-2021-43035",
+      "target": "CVE-2021-43033",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both CVEs achieve remote code execution with elevated privileges. CVE-2021-43035 uses SQL injection to gain postgres access and RCE, while CVE-2021-43033 uses command injection in bpserverd for root access. Both bypass authentication to execute arbitrary code."
+    },
+    {
+      "source": "CVE-2021-43036",
+      "target": "CVE-2021-43035",
+      "relation_type": "reconnaissance",
+      "description": "Knowledge of the weak wguest password (CVE-2021-43036) allows authenticated database enumeration, revealing table structures, stored procedures, and SQL endpoint configurations. This reconnaissance identifies the vulnerable SQL injection points exploited in CVE-2021-43035."
+    },
+    {
+      "source": "CVE-2021-43034",
+      "target": "CVE-2021-43040",
+      "relation_type": "precondition_met",
+      "description": "After gaining apache user privileges through CVE-2021-43034, an attacker can interact with web application components running as apache. This interaction capability enables exploitation of CVE-2021-43040 where the privileged vaultServer trusts requests from the apache context to create arbitrary files."
+    },
+    {
+      "source": "CVE-2021-43040",
+      "target": "CVE-2017-12479",
+      "relation_type": "similar_attack_pattern",
+      "description": "Both CVEs leverage file system manipulation for privilege escalation. CVE-2021-43040 uses arbitrary file write through vaultServer, while CVE-2017-12479 manipulates the LOGDIR environment variable. Both exploit file path control to gain elevated privileges (root in CVE-2017-12479's case)."
+    }
+  ]
+}
