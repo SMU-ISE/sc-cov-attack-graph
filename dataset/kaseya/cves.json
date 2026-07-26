@@ -1,0 +1,292 @@
+[
+  {
+    "cve_id": "CVE-2014-3008",
+    "description": "Unitrends Enterprise Backup 7.3.0 allows remote authenticated users to execute arbitrary commands via shell metacharacters in the comm parameter to recoveryconsole/bpl/snmpd.php.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2014-3139",
+    "description": "recoveryconsole/bpl/snmpd.php in Unitrends Enterprise Backup 7.3.0 allows remote attackers to bypass authentication by setting the auth parameter to a certain string.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2017-7279",
+    "description": "An unprivileged user of the Unitrends Enterprise Backup before 9.0.0 web server can escalate to root privileges by modifying the \"token\" cookie issued at login.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2017-7280",
+    "description": "An issue was discovered in api/includes/systems.php in Unitrends Enterprise Backup before 9.0.0. User input is not properly filtered before being sent to a popen function. This allows for remote code execution by sending a specially crafted user variable.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2017-7281",
+    "description": "An issue was discovered in Unitrends Enterprise Backup before 9.1.2. A lack of sanitization of user input in the createReportName and saveReport functions in recoveryconsole/bpl/reports.php allows for an authenticated user to create a randomly named file on disk with a user-controlled extension, contents, and path, leading to remote code execution, aka Unrestricted File Upload.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2017-7284",
+    "description": "An attacker that has hijacked a Unitrends Enterprise Backup (before 9.1.2) web server session can leverage api/includes/users.php to change the password of the logged in account without knowing the current password. This allows for an account takeover.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2017-7282",
+    "description": "An issue was discovered in Unitrends Enterprise Backup before 9.1.1. The function downloadFile in api/includes/restore.php blindly accepts any filename passed to /api/restore/download as valid. This allows an authenticated attacker to read any file in the filesystem that the web server has access to, aka Local File Inclusion (LFI).",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2017-7283",
+    "description": "An authenticated user of Unitrends Enterprise Backup before 9.1.2 can execute arbitrary OS commands by sending a specially crafted filename to the /api/restore/download-files endpoint, related to the downloadFiles function in api/includes/restore.php.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2017-12477",
+    "description": "It was discovered that the bpserverd proprietary protocol in Unitrends Backup (UB) before 10.0.0, as invoked through xinetd, has an issue in which its authentication can be bypassed. A remote attacker could use this issue to execute arbitrary commands with root privilege on the target system.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2017-12478",
+    "description": "It was discovered that the api/storage web interface in Unitrends Backup (UB) before 10.0.0 has an issue in which one of its input parameters was not validated. A remote attacker could use this flaw to bypass authentication and execute arbitrary commands with root privilege on the target system.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2017-12479",
+    "description": "It was discovered that an issue in the session logic in Unitrends Backup (UB) before 10.0.0 allowed using the LOGDIR environment variable during a web session to elevate an existing low-privilege user to root privileges. A remote attacker with existing low-privilege credentials could then execute arbitrary commands with root privileges.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2018-6328",
+    "description": "It was discovered that the Unitrends Backup (UB) before 10.1.0 user interface was exposed to an authentication bypass, which then could allow an unauthenticated user to inject arbitrary commands into its /api/hosts parameters using backquotes.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2018-6329",
+    "description": "It was discovered that the Unitrends Backup (UB) before 10.1.0 libbpext.so authentication could be bypassed with a SQL injection, allowing a remote attacker to place a privilege escalation exploit on the target system and subsequently execute arbitrary commands.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2020-8427",
+    "description": "In Unitrends Backup before 10.4.1, an HTTP request parameter was not properly sanitized, allowing for SQL injection that resulted in an authentication bypass.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-40385",
+    "description": "An issue was discovered in the server software in Kaseya Unitrends Backup Software before 10.5.5-2. There is a privilege escalation from read-only user to admin.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-40387",
+    "description": "An issue was discovered in the server software in Kaseya Unitrends Backup Software before 10.5.5-2. There is authenticated remote code execution.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-43033",
+    "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. Multiple functions in the bpserverd daemon were vulnerable to arbitrary remote code execution as root. The vulnerability was caused by untrusted input (received by the server) being passed to system calls.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-43034",
+    "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. A world writable file allowed local users to execute arbitrary code as the user apache, leading to privilege escalation.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-43035",
+    "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. Two unauthenticated SQL injection vulnerabilities were discovered, allowing arbitrary SQL queries to be injected and executed under the postgres superuser account. Remote code execution was possible, leading to full access to the postgres user account.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-43036",
+    "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The password for the PostgreSQL wguest account is weak.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-43037",
+    "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The Unitrends Windows agent was vulnerable to DLL injection and binary planting due to insecure default permissions. This allowed privilege escalation from an unprivileged user to SYSTEM.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-43038",
+    "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The wguest account could execute commands by injecting into PostgreSQL trigger functions. This allowed privilege escalation from the wguest user to the postgres user.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-43039",
+    "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The Samba file sharing service allowed anonymous read/write access.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-43040",
+    "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The privileged vaultServer could be leveraged to create arbitrary writable files, leading to privilege escalation.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-43041",
+    "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. A crafted HTTP request could induce a format string vulnerability in the privileged vaultServer application.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-43042",
+    "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. A buffer overflow existed in the vaultServer component. This was exploitable by a remote unauthenticated attacker.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-43043",
+    "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The apache user could read arbitrary files such as /etc/shadow by abusing an insecure Sudo rule.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-43044",
+    "description": "An issue was discovered in Kaseya Unitrends Backup Appliance before 10.5.5. The SNMP daemon was configured with a weak default community.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  },
+  {
+    "cve_id": "CVE-2021-40386",
+    "description": "Kaseya Unitrends Client/Agent through 10.5,5 allows remote attackers to execute arbitrary code.",
+    "product": "unitrends",
+    "platform": null,
+    "affected_version_range": null,
+    "vulnerability_type": null,
+    "precondition": null,
+    "postcondition": null
+  }
+]
