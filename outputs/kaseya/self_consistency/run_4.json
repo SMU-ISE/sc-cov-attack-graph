@@ -1,0 +1,365 @@
+{
+  "metadata": {
+    "candidate_id": 4,
+    "description": "Round 4 full enumeration - strict text-based re-verification, new link 43042→43034 added",
+    "total_cves_analyzed": 19,
+    "total_links_found": 34
+  },
+  "nodes": [
+    {
+      "id": "CVE-2017-12477",
+      "label": "Auth Bypass → RCE as root (bpserverd)",
+      "is_anchor": true
+    },
+    {
+      "id": "CVE-2017-12478",
+      "label": "Input Validation Bypass → Auth Bypass → RCE as root (api/storage)"
+    },
+    {
+      "id": "CVE-2017-12479",
+      "label": "Privilege Escalation via LOGDIR env var"
+    },
+    {
+      "id": "CVE-2018-6328",
+      "label": "Auth Bypass → Command Injection (api/hosts)"
+    },
+    {
+      "id": "CVE-2021-40385",
+      "label": "Privilege Escalation: read-only → admin"
+    },
+    {
+      "id": "CVE-2021-40386",
+      "label": "RCE via Client/Agent"
+    },
+    {
+      "id": "CVE-2021-40387",
+      "label": "Authenticated RCE (server)"
+    },
+    {
+      "id": "CVE-2021-43033",
+      "label": "RCE as root via bpserverd untrusted input"
+    },
+    {
+      "id": "CVE-2021-43034",
+      "label": "Local PrivEsc via insecure file permissions → apache"
+    },
+    {
+      "id": "CVE-2021-43035",
+      "label": "Unauthenticated SQLi → postgres superuser RCE"
+    },
+    {
+      "id": "CVE-2021-43036",
+      "label": "Weak Default Credentials (wguest PostgreSQL)"
+    },
+    {
+      "id": "CVE-2021-43037",
+      "label": "DLL Injection → SYSTEM (Windows Agent)"
+    },
+    {
+      "id": "CVE-2021-43038",
+      "label": "PrivEsc via SQL Trigger Injection: wguest → postgres"
+    },
+    {
+      "id": "CVE-2021-43039",
+      "label": "Anonymous Read/Write via Samba"
+    },
+    {
+      "id": "CVE-2021-43040",
+      "label": "Arbitrary File Write → PrivEsc (vaultServer)"
+    },
+    {
+      "id": "CVE-2021-43041",
+      "label": "Format String Vuln in vaultServer"
+    },
+    {
+      "id": "CVE-2021-43042",
+      "label": "Unauthenticated Remote Buffer Overflow (vaultServer)"
+    },
+    {
+      "id": "CVE-2021-43043",
+      "label": "Arbitrary File Read via Sudo Misconfig (apache)"
+    },
+    {
+      "id": "CVE-2021-43044",
+      "label": "Weak SNMP Community String → Info Disclosure"
+    }
+  ],
+  "links": [
+    {
+      "source": "CVE-2017-12477",
+      "target": "CVE-2017-12478",
+      "relation": "similar_attack_pattern",
+      "reason": "Same UB < 10.0.0, different interface, auth bypass → root RCE same principle"
+    },
+    {
+      "source": "CVE-2017-12477",
+      "target": "CVE-2017-12479",
+      "relation": "precondition_met",
+      "reason": "Root post → low-priv+session pre satisfied"
+    },
+    {
+      "source": "CVE-2017-12477",
+      "target": "CVE-2018-6328",
+      "relation": "similar_attack_pattern",
+      "reason": "Auth bypass → command execution same attack pattern"
+    },
+    {
+      "source": "CVE-2017-12477",
+      "target": "CVE-2021-43033",
+      "relation": "similar_attack_pattern",
+      "reason": "bpserverd daemon same component, root RCE identical"
+    },
+    {
+      "source": "CVE-2017-12477",
+      "target": "CVE-2021-43035",
+      "relation": "precondition_met",
+      "reason": "Root post → SQL endpoint network access pre satisfied"
+    },
+    {
+      "source": "CVE-2017-12477",
+      "target": "CVE-2021-43044",
+      "relation": "reconnaissance",
+      "reason": "Root obtained → SNMP weak community reconnaissance"
+    },
+    {
+      "source": "CVE-2017-12478",
+      "target": "CVE-2017-12479",
+      "relation": "precondition_met",
+      "reason": "Root post → low-priv+session pre satisfied"
+    },
+    {
+      "source": "CVE-2017-12478",
+      "target": "CVE-2018-6328",
+      "relation": "similar_attack_pattern",
+      "reason": "Auth bypass + command injection identical"
+    },
+    {
+      "source": "CVE-2017-12478",
+      "target": "CVE-2021-43033",
+      "relation": "similar_attack_pattern",
+      "reason": "Input validation bypass → RCE identical"
+    },
+    {
+      "source": "CVE-2017-12478",
+      "target": "CVE-2021-43035",
+      "relation": "precondition_met",
+      "reason": "Root post → SQL endpoint access satisfied"
+    },
+    {
+      "source": "CVE-2017-12479",
+      "target": "CVE-2021-40385",
+      "relation": "similar_attack_pattern",
+      "reason": "Low privilege → high privilege escalation identical"
+    },
+    {
+      "source": "CVE-2017-12479",
+      "target": "CVE-2021-43034",
+      "relation": "similar_attack_pattern",
+      "reason": "Local PrivEsc identical"
+    },
+    {
+      "source": "CVE-2017-12479",
+      "target": "CVE-2021-43037",
+      "relation": "similar_attack_pattern",
+      "reason": "PrivEsc identical"
+    },
+    {
+      "source": "CVE-2017-12479",
+      "target": "CVE-2021-43038",
+      "relation": "similar_attack_pattern",
+      "reason": "PrivEsc identical"
+    },
+    {
+      "source": "CVE-2017-12479",
+      "target": "CVE-2021-43040",
+      "relation": "similar_attack_pattern",
+      "reason": "PrivEsc identical"
+    },
+    {
+      "source": "CVE-2018-6328",
+      "target": "CVE-2021-43033",
+      "relation": "similar_attack_pattern",
+      "reason": "Command Injection identical"
+    },
+    {
+      "source": "CVE-2018-6328",
+      "target": "CVE-2021-43035",
+      "relation": "precondition_met",
+      "reason": "Command injection success → SQL endpoint access satisfied"
+    },
+    {
+      "source": "CVE-2021-40385",
+      "target": "CVE-2021-40387",
+      "relation": "precondition_met",
+      "reason": "Admin post → User authentication pre satisfied"
+    },
+    {
+      "source": "CVE-2021-40385",
+      "target": "CVE-2021-43034",
+      "relation": "similar_attack_pattern",
+      "reason": "PrivEsc identical"
+    },
+    {
+      "source": "CVE-2021-40385",
+      "target": "CVE-2021-43037",
+      "relation": "similar_attack_pattern",
+      "reason": "PrivEsc identical"
+    },
+    {
+      "source": "CVE-2021-40385",
+      "target": "CVE-2021-43038",
+      "relation": "similar_attack_pattern",
+      "reason": "PrivEsc identical"
+    },
+    {
+      "source": "CVE-2021-40385",
+      "target": "CVE-2021-43040",
+      "relation": "similar_attack_pattern",
+      "reason": "PrivEsc identical"
+    },
+    {
+      "source": "CVE-2021-40386",
+      "target": "CVE-2021-43033",
+      "relation": "similar_attack_pattern",
+      "reason": "RCE identical"
+    },
+    {
+      "source": "CVE-2021-40386",
+      "target": "CVE-2021-43035",
+      "relation": "similar_attack_pattern",
+      "reason": "RCE identical"
+    },
+    {
+      "source": "CVE-2021-40386",
+      "target": "CVE-2021-43041",
+      "relation": "similar_attack_pattern",
+      "reason": "RCE identical"
+    },
+    {
+      "source": "CVE-2021-40386",
+      "target": "CVE-2021-43042",
+      "relation": "similar_attack_pattern",
+      "reason": "Remote code execution identical"
+    },
+    {
+      "source": "CVE-2021-40387",
+      "target": "CVE-2021-43033",
+      "relation": "similar_attack_pattern",
+      "reason": "RCE identical"
+    },
+    {
+      "source": "CVE-2021-40387",
+      "target": "CVE-2021-43035",
+      "relation": "similar_attack_pattern",
+      "reason": "RCE identical"
+    },
+    {
+      "source": "CVE-2021-43033",
+      "target": "CVE-2021-43034",
+      "relation": "precondition_met",
+      "reason": "Root RCE post → local user access pre satisfied"
+    },
+    {
+      "source": "CVE-2021-43033",
+      "target": "CVE-2021-43039",
+      "relation": "precondition_met",
+      "reason": "Root post → Samba network access pre satisfied"
+    },
+    {
+      "source": "CVE-2021-43033",
+      "target": "CVE-2021-43043",
+      "relation": "precondition_met",
+      "reason": "Root RCE post → apache user access pre satisfied"
+    },
+    {
+      "source": "CVE-2021-43034",
+      "target": "CVE-2021-43040",
+      "relation": "precondition_met",
+      "reason": "Apache user post → vaultServer interaction pre satisfied"
+    },
+    {
+      "source": "CVE-2021-43034",
+      "target": "CVE-2021-43041",
+      "relation": "precondition_met",
+      "reason": "Apache user post → vaultServer HTTP request pre satisfied"
+    },
+    {
+      "source": "CVE-2021-43034",
+      "target": "CVE-2021-43043",
+      "relation": "precondition_met",
+      "reason": "Apache user post → 43043 pre directly satisfied"
+    },
+    {
+      "source": "CVE-2021-43035",
+      "target": "CVE-2021-43036",
+      "relation": "reconnaissance",
+      "reason": "Postgres superuser post → wguest weak pw search"
+    },
+    {
+      "source": "CVE-2021-43035",
+      "target": "CVE-2021-43038",
+      "relation": "precondition_met",
+      "reason": "Postgres post → DB access condition satisfied"
+    },
+    {
+      "source": "CVE-2021-43036",
+      "target": "CVE-2021-43038",
+      "relation": "precondition_met",
+      "reason": "Wguest post → 43038 pre directly satisfied"
+    },
+    {
+      "source": "CVE-2021-43039",
+      "target": "CVE-2021-43034",
+      "relation": "precondition_met",
+      "reason": "Anonymous read/write post → local user access pre satisfied"
+    },
+    {
+      "source": "CVE-2021-43039",
+      "target": "CVE-2021-43040",
+      "relation": "precondition_met",
+      "reason": "File read/write post → vaultServer file write pre satisfied"
+    },
+    {
+      "source": "CVE-2021-43040",
+      "target": "CVE-2021-43041",
+      "relation": "similar_attack_pattern",
+      "reason": "vaultServer same component"
+    },
+    {
+      "source": "CVE-2021-43040",
+      "target": "CVE-2021-43043",
+      "relation": "precondition_met",
+      "reason": "Arbitrary file write post → apache user access pre satisfied"
+    },
+    {
+      "source": "CVE-2021-43041",
+      "target": "CVE-2021-43042",
+      "relation": "similar_attack_pattern",
+      "reason": "vaultServer format string/buffer overflow same component"
+    },
+    {
+      "source": "CVE-2021-43042",
+      "target": "CVE-2021-43034",
+      "relation": "precondition_met",
+      "reason": "43042 vaultServer RCE post → 43034 pre(local user access) satisfied (Round 4 new)"
+    },
+    {
+      "source": "CVE-2021-43043",
+      "target": "CVE-2021-43036",
+      "relation": "reconnaissance",
+      "reason": "/etc/shadow read post → wguest pw hash obtained → weak credential verified"
+    },
+    {
+      "source": "CVE-2021-43044",
+      "target": "CVE-2021-43033",
+      "relation": "reconnaissance",
+      "reason": "SNMP info gathering → 43033 attack refinement"
+    },
+    {
+      "source": "CVE-2021-43044",
+      "target": "CVE-2021-43036",
+      "relation": "reconnaissance",
+      "reason": "SNMP weak config discovered → weak credential reconnaissance"
+    }
+  ]
+}
