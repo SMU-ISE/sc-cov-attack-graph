@@ -42,8 +42,28 @@ Repeat the following process independently for runs 1 through 5 (i = 1, 2, 3, 4,
   always include the central node "{CENTRAL_CVE}".
 - Saving results: when calling save_candidate_graph, you MUST specify the
   candidate_id (use i for each run, i.e., 1 through 5).
-- Return a single JSON object that strictly follows the metadata / nodes / links
-  structure.
+- Return a single JSON object with exactly the following structure and key names:
+
+  {
+    "metadata": {
+      "candidate_id": <i>,
+      "total_nodes": <number of entries in "nodes">,
+      "total_links": <number of entries in "links">
+    },
+    "nodes": [
+      {"id": "<CVE-ID>", "vulnerability_type": "...", "product": "..."}
+    ],
+    "links": [
+      {"source": "<CVE-ID>",
+       "target": "<CVE-ID>",
+       "relation_type": "<one of the four types above>",
+       "evidence": "<supporting text from the tagged data>"}
+    ]
+  }
+
+  Use the key name "relation_type" exactly. Do not substitute "relation",
+  "type", or "relationship". Set "total_links" to the actual length of the
+  links array, and "total_nodes" to the actual length of the nodes array.
 
 Begin now, running the analysis sequentially from run 1 through run 5.
 
@@ -51,4 +71,4 @@ Begin now, running the analysis sequentially from run 1 through run 5.
 Notes for reproduction:
 - Replace {DATASET} with log4j or kaseya.
 - Replace {CENTRAL_CVE} with the dataset's central node
-  (log4j: CVE-2021-44228, kaseya: <central CVE>).
+  (log4j: CVE-2021-44228, kaseya: CVE-2017-12477).
