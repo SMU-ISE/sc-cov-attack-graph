@@ -1,7 +1,7 @@
 import glob
 import json
 import os
-import tempfile
+import re
 
 import networkx as nx
 import streamlit as st
@@ -16,15 +16,13 @@ st.title("🛡️ Attack Graph Visualization")
 # a pipeline run is picked up from the working directory without extra setup.
 DEFAULT_GRAPH_FILE = "attack_graph.json"
 
-# Relationship types defined by the framework, with a colour for each so the
-# taxonomy is visible in the rendered graph.
-RELATION_COLORS = {
-    "incomplete_fix": "#D9534F",
-    "precondition_met": "#2B7CE9",
-    "similar_attack_pattern": "#5CB85C",
-    "reconnaissance": "#F0AD4E",
-}
-UNKNOWN_RELATION_COLOR = "#999999"
+# Graphs live in <repo>/outputs, but streamlit resolves relative paths against
+# the working directory. Look there first, then fall back to the repository
+# root inferred from this file, so the app works from any directory.
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SEARCH_ROOTS = [os.getcwd(), REPO_ROOT]
+
+CVE_PATTERN = re.compile(r"CVE-\d{4}-\d{4,7}")
 
 # Flags a generator may use to mark the vulnerability a graph is centred on.
 CENTRAL_FLAGS = ("is_central", "is_anchor", "is_central_node")
@@ -33,12 +31,22 @@ CENTRAL_FLAGS = ("is_central", "is_anchor", "is_central_node")
 # --- 2. Graph selection ---
 st.sidebar.header("Graph selection")
 
-available = sorted(glob.glob(os.path.join("outputs", "*", "*", "run_*.json")))
-if os.path.exists(DEFAULT_GRAPH_FILE):
-    available.append(DEFAULT_GRAPH_FILE)
+available, base_dir = [], os.getcwd()
+for root in SEARCH_ROOTS:
+    hits = sorted(glob.glob(os.path.join(root, "outputs", "*", "*", "run_*.json")))
+    default_graph = os.path.join(root, DEFAULT_GRAPH_FILE)
+    if os.path.exists(default_graph):
+        hits.append(default_graph)
+    if hits:
+        available, base_dir = hits, root
+        break
 
 if available:
-    graph_file = st.sidebar.selectbox("Attack graph", available)
+    graph_file = st.sidebar.selectbox(
+        "Attack graph",
+        available,
+        format_func=lambda p: os.path.relpath(p, base_dir),
+    )
 else:
     st.sidebar.info(
         "No graphs found under `outputs/`. Run this app from the repository "
@@ -56,12 +64,15 @@ if not graph_file or not os.path.exists(graph_file):
     )
     st.stop()
 
-# Derive a caption from the path, e.g. outputs/log4j/proposed/run_1.json
+# Derive a caption from the trailing path components, e.g.
+# .../outputs/log4j/proposed/run_1.json
 parts = os.path.normpath(graph_file).split(os.sep)
-if len(parts) >= 4 and parts[0] == "outputs":
-    st.caption(f"Dataset: **{parts[1]}**  |  Method: **{parts[2]}**  |  {parts[3]}")
+if len(parts) >= 4 and parts[-4] == "outputs":
+    st.caption(
+        f"Dataset: **{parts[-3]}**  |  Method: **{parts[-2]}**  |  {parts[-1]}"
+    )
 else:
-    st.caption(graph_file)
+    st.caption(os.path.basename(graph_file))
 
 
 # --- 3. Load data ---
@@ -74,7 +85,11 @@ except (OSError, json.JSONDecodeError) as e:
     st.stop()
 
 raw_nodes = graph_data.get("nodes", [])
-raw_links = graph_data.get("links", [])
+# The four prompting methods emit "links" with source/target. The RAG baseline
+# emits "edges" with from/to, so accept both spellings.
+raw_links = graph_data.get("links")
+if not raw_links:
+    raw_links = graph_data.get("edges", [])
 st.info(
     f"✅ Loaded '{graph_file}' "
     f"(Nodes: {len(raw_nodes)}, Links: {len(raw_links)})"
@@ -123,15 +138,27 @@ if skipped:
 
 
 # --- 5. Create NetworkX graph ---
+# Built directly rather than through nx.node_link_graph, whose keyword for the
+# link list changed across networkx versions (`link` before 3.4, `edges` from
+# 3.6) and which silently falls back to the array index when a node record has
+# no `id`.
 try:
-    # `edges="links"` is required: networkx 3.6 renamed the parameter from
-    # `link` and changed the default key to "edges".
-    G = nx.node_link_graph(
-        {"nodes": nodes, "links": raw_links},
-        directed=True,
-        multigraph=False,
-        edges="links",
-    )
+    G = nx.DiGraph()
+    for node in nodes:
+        G.add_node(node["id"], **{k: v for k, v in node.items() if k != "id"})
+    for link in raw_links:
+        source = link.get("source", link.get("from"))
+        target = link.get("target", link.get("to"))
+        if source is None or target is None:
+            continue
+        G.add_edge(
+            source,
+            target,
+            **{
+                k: v for k, v in link.items()
+                if k not in ("source", "target", "from", "to")
+            },
+        )
     st.success(
         f"NetworkX graph created "
         f"({G.number_of_nodes()} nodes, {G.number_of_edges()} edges)."
@@ -177,12 +204,27 @@ if central is None and G.number_of_nodes():
 for n in G.nodes():
     data = G.nodes[n]
 
+    # RAG graphs identify nodes as N01, N02 … and carry the CVE inside `label`,
+    # so surface the CVE when one is present and fall back to the label text.
+    label = data.get("cve_id")
+    if not label:
+        text = data.get("label") or str(n)
+        match = CVE_PATTERN.search(text)
+        label = match.group(0) if match else text
+    if len(label) > 32:
+        label = label[:29] + "…"
+
     if data:
-        title = (
-            f"ID: {n}\n"
-            f"Type: {data.get('vulnerability_type', 'N/A')}\n"
-            f"Description: {data.get('description', 'N/A')}\n"
-        )
+        lines = [f"ID: {n}"]
+        if data.get("label") and data.get("label") != label:
+            lines.append(f"Name: {data['label']}")
+        lines.append(f"Type: {data.get('vulnerability_type', 'N/A')}")
+        if data.get("precondition"):
+            lines.append(f"Precondition: {data['precondition']}")
+        if data.get("postcondition"):
+            lines.append(f"Postcondition: {data['postcondition']}")
+        lines.append(f"Description: {data.get('description', 'N/A')}")
+        title = "\n".join(lines)
     else:
         title = f"ID: {n}"
 
@@ -193,27 +235,20 @@ for n in G.nodes():
         color = "#FF4136"
         value = max(value, 50)
 
-    net.add_node(str(n), label=str(n), title=title, shape="ellipse",
+    net.add_node(str(n), label=label, title=title, shape="ellipse",
                  color=color, value=value)
 
 for u, v, data in G.edges(data=True):
     # Generated links do not agree on which key holds the justification text:
-    # `description`, `reason`, and `evidence` all occur across the outputs.
+    # description, reason, evidence, and label all occur across the outputs.
     edge_title = (
         data.get("description")
         or data.get("reason")
         or data.get("evidence")
+        or data.get("label")
         or "N/A"
     )
-    relation = data.get("relation_type", "")
-    net.add_edge(
-        str(u),
-        str(v),
-        label=relation,
-        title=edge_title,
-        arrows="to",
-        color=RELATION_COLORS.get(relation, UNKNOWN_RELATION_COLOR),
-    )
+    net.add_edge(str(u), str(v), label="", title=edge_title, arrows="to")
 
 net.toggle_physics(True)
 
@@ -229,10 +264,14 @@ options_json = """
   "edges": {
     "font": {
       "color": "#000000",
-      "size": 12,
+      "size": 14,
       "align": "middle",
-      "strokeWidth": 3,
-      "strokeColor": "#ffffff"
+      "strokeWidth": 0
+    },
+    "color": {
+      "color": "#2B7CE9",
+      "highlight": "#0055FF",
+      "hover": "#0055FF"
     },
     "arrows": {
       "to": { "enabled": true, "scaleFactor": 0.5 }
@@ -253,32 +292,18 @@ options_json = """
   }
 }
 """
-# Edge colours are set per edge from the relationship type, so no global edge
-# colour is declared here.
 net.set_options(options_json)
 
-st.sidebar.header("Relationship types")
-for relation, color in RELATION_COLORS.items():
-    st.sidebar.markdown(
-        f"<span style='color:{color}'>&#9632;</span> `{relation}`",
-        unsafe_allow_html=True,
-    )
-st.sidebar.markdown(
-    f"<span style='color:{UNKNOWN_RELATION_COLOR}'>&#9632;</span> "
-    "outside the taxonomy",
-    unsafe_allow_html=True,
-)
-
-
 # --- 7. Render the graph in Streamlit ---
-# pyvis can only render to a file, so write it outside the working tree to
-# avoid dropping an artifact into the repository on every run.
+# pyvis's save_graph() opens the output file without specifying an encoding, so
+# it fails on non-UTF-8 locales (cp949, for example) because the bundled vis.js
+# contains characters outside that codec. Generate the HTML in memory instead,
+# which also avoids leaving an artifact in the working tree.
 try:
-    with tempfile.TemporaryDirectory() as tmpdir:
-        html_file = os.path.join(tmpdir, "attack_graph_viz.html")
-        net.save_graph(html_file)
-        with open(html_file, "r", encoding="utf-8") as f:
-            source_code = f.read()
+    try:
+        source_code = net.generate_html(notebook=False)
+    except TypeError:  # older pyvis without the notebook keyword
+        source_code = net.generate_html()
     components.html(source_code, height=770, scrolling=False)
 except Exception as e:
     st.error(f"Error rendering the Pyvis graph: {e}")
