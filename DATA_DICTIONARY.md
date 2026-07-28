@@ -151,10 +151,11 @@ Distribution among accepted links:
 
 | Type | log4j | kaseya |
 |---|---|---|
-| `incomplete_fix` | 6 | 1 |
+| `incomplete_fix` | 2 | 0 |
+| `precondition_met` | 0 | 6 |
 | `similar_attack_pattern` | 6 | 7 |
-| `precondition_met` | 3 | 8 |
-| `reconnaissance` | 1 | 1 |
+| `reconnaissance` | 1 | 0 |
+| **Total** | **9** | **13** |
 
 ---
 

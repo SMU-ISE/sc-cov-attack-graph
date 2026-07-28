@@ -56,6 +56,9 @@ src/
   server.py                    MCP server exposing the pipeline tools
   dashboard.py                 Interactive attack graph viewer
 
+docs/
+  figures/                   Diagrams used in this documentation
+
 DATA_DICTIONARY.md             File and column definitions
 ANNOTATION_GUIDELINES.md       Ground-truth annotation procedure
 ```
@@ -193,15 +196,13 @@ surface similarity between vulnerabilities. Few-shot reasoning removes many of
 them but keeps its own unsupported inferences. The proposed method retains only
 the relationships that survive both majority voting and evidence verification.
 
-Each of these graphs can be opened directly:
+Each of these graphs can be opened in the dashboard:
 
 ```bash
 streamlit run src/dashboard.py
 ```
 
-then load `outputs/log4j/standard_prompting/run_1.json`,
-`outputs/log4j/few_shot_cot/run_1.json`, or
-`outputs/log4j/proposed/run_1.json`.
+Every graph under `outputs/` appears in the sidebar selector.
 
 ---
 
@@ -222,9 +223,10 @@ attributes of its endpoints and returns a keep or drop decision with a reason.
 
 `src/server.py` is an MCP server that exposes the pipeline as callable tools:
 CVE retrieval from the NVD API, loading and saving tagged records, saving and
-loading candidate graphs, and saving the final verified graph. `src/dashboard.py`
-renders any generated graph as an interactive network, with node attributes and
-link evidence shown on hover.
+loading candidate graphs, and saving the final verified graph.
+`src/dashboard.py` lists every graph under `outputs/` in a sidebar selector and
+renders the chosen one as an interactive network, with node attributes and link
+explanations shown on hover.
 
 These require `mcp`, `nvdlib`, `streamlit`, `pyvis`, and `networkx`.
 

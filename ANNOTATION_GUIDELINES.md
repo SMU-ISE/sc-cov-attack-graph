@@ -389,15 +389,38 @@ Distribution of accepted links by relationship type:
 
 | Type | Log4j | Kaseya |
 |---|---|---|
-| `incomplete_fix` | 6 | 1 |
+| `incomplete_fix` | 2 | 0 |
+| `precondition_met` | 0 | 6 |
 | `similar_attack_pattern` | 6 | 7 |
-| `precondition_met` | 3 | 8 |
-| `reconnaissance` | 1 | 1 |
+| `reconnaissance` | 1 | 0 |
+| **Total** | **9** | **13** |
 
-The two cases exercise different parts of the taxonomy. Log4j is dominated by
-patch-evolution and shared-mechanism relationships within a single library,
-while Kaseya is dominated by privilege-chaining relationships across appliance
-components.
+For reference, the distribution across all candidate links, accepted and
+rejected together:
+
+| Type | Log4j | Kaseya |
+|---|---|---|
+| `incomplete_fix` | 6 | 1 |
+| `precondition_met` | 3 | 8 |
+| `similar_attack_pattern` | 6 | 7 |
+| `reconnaissance` | 1 | 1 |
+| **Total** | **16** | **17** |
+
+Comparing the two tables shows where adjudication was strictest.
+`incomplete_fix` was proposed six times in Log4j and accepted twice: the
+remaining four pairs were sequential releases of the same library with no
+advisory describing one as an incomplete fix of the other. `precondition_met`
+was rejected in all three Log4j cases and in two of eight Kaseya cases.
+`similar_attack_pattern` was accepted every time it was proposed, reflecting
+that a shared exploitation mechanism is usually stated outright in the records
+rather than inferred.
+
+The two cases exercise different parts of the taxonomy. Log4j relationships are
+mostly shared-mechanism links within a single library, with a short
+patch-evolution chain through CVE-2021-44228, CVE-2021-45046, and
+CVE-2021-45105. Kaseya splits between shared-mechanism links and
+privilege-chaining across appliance components, and contains no accepted
+`incomplete_fix` or `reconnaissance` relationship at all.
 
 ---
 
