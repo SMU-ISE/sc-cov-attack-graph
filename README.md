@@ -17,7 +17,7 @@ evidence are removed (Chain-of-Verification).
 The repository contains the datasets, prompts, generated graphs from all
 experimental runs, and the evaluation scripts used to score them.
 
-![Framework architecture](docs/figures/architecture.png.png)
+![Framework architecture](docs/figures/architecture.png)
 
 ---
 
